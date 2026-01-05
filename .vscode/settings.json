@@ -1,0 +1,25 @@
+{
+"eslint.run": "onSave",
+"eslint.validate": [
+    "javascript",
+    "javascriptreact"
+],
+"[javascript]": {
+    "editor.formatOnSave": false,
+    "editor.tabSize": 2,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    }
+},
+"[javascriptreact]": {
+    "editor.formatOnSave": false,
+    "editor.tabSize": 2,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    }
+},
+"[json]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "vscode.json-language-features"
+},  
+}   
