@@ -7,8 +7,8 @@ const PORT = 5172;
 const app = express();
 app.use(cors());
 
-app.get('/', (req, res) => {
-  res.send('bar');
+app.get('/test', (req, res) => {
+  res.json({ msg: 'hello from backend' });
 });
 
 app.listen(PORT, HOST, () => {
