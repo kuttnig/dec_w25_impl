@@ -5,9 +5,9 @@ cd frontend
 ```
 
 ```
-npm install
+docker build -t dec_frontend .
 ```
 
 ```
-npm run dev
+docker run -p 5173:5173 dec_frontend
 ```
