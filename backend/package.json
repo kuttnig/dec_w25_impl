@@ -1,0 +1,16 @@
+{
+    "name": "express.dev",
+    "version": "0.0.0",
+    "type": "module",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.17.1"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.39.2",
+        "eslint": "^8.57.1",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-plugin-import": "^2.32.0",
+        "globals": "^17.0.0"
+    }
+}
