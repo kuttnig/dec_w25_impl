@@ -1,4 +1,25 @@
 services:
+  mongo-dev:
+      image: mongodb/mongodb-community-server:7.0-ubi8
+      environment:
+        - MONGO_INITDB_ROOT_USERNAME=admin
+        - MONGO_INITDB_ROOT_PASSWORD=admin
+      ports:
+        - "27017:27017"
+
+  express-dev:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+        - CONN_STR=mongodb://admin:admin@mongodb
+    ports:
+      - "5172:5172"
+    volumes:
+      - ./backend/src:/app/src
+    depends_on:
+      - mongo-dev
+
   react-dev:
     build:
       context: ./frontend
@@ -7,20 +28,4 @@ services:
       - "5173:5173"
     volumes:
       - ./frontend/src:/app/src
-
-  express-dev:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - "5172:5172"
-    volumes:
-      - ./backend/src:/app/src
-
-  mongo-dev:
-      image: mongodb/mongodb-community-server:7.0-ubi8
-      environment:
-        - MONGO_INITDB_ROOT_USERNAME=admin
-        - MONGO_INITDB_ROOT_PASSWORD=admin
-      ports:
-        - "27017:27017"
+      
