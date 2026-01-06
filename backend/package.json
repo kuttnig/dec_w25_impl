@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "node server.js"
+        "dev": "node --watch src/server.js"
     },
     "dependencies": {
         "cors": "^2.8.5",
