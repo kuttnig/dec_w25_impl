@@ -1,20 +1,12 @@
-### Frontend Setup
+# Setup
 
-```
-cd frontend
-```
-
+Build and run:
 ```
 docker compose up
 ```
 
-
-### Backend Setup
-
-```
-cd backend
-```
+Monitor logs of specific container:
 
 ```
-docker compose up
+docker compose logs -f [SERVICE]
 ```

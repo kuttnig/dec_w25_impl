@@ -1,0 +1,18 @@
+services:
+  react-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/src:/app/src
+
+  express-dev:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5172:5172"
+    volumes:
+      - ./backend/src:/app/src
