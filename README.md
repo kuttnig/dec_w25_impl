@@ -5,12 +5,9 @@ cd frontend
 ```
 
 ```
-docker build -t dec_frontend .
+docker compose up
 ```
 
-```
-docker run -p 5173:5173 dec_frontend
-```
 
 ### Backend Setup
 

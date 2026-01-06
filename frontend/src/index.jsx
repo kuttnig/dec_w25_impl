@@ -5,13 +5,7 @@ import './styles.css';
 
 import App from './App';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-    },
-  },
-});
+const queryClient = new QueryClient();
 
 const root = createRoot(document.getElementById('root'));
 root.render(

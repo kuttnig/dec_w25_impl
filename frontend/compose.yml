@@ -1,0 +1,14 @@
+services:
+  react-dev:
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    ports:
+      - "5173:5173"
+
+    volumes:
+      - ./src:/app/src
+    
+    command: npm run dev
