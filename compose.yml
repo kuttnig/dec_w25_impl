@@ -12,7 +12,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     environment:
-        - CONN_STR=mongodb://admin:admin@mongodb
+        - MONGO_CON_STR=mongodb://admin:admin@mongo-dev
     ports:
       - "5172:5172"
     volumes:
