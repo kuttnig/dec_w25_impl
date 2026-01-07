@@ -1,0 +1,12 @@
+[
+    {
+        "_id": "507f1f77bcf86cd799439020",
+        "name": "Raphael",
+        "isBusiness": false
+    },
+    {
+        "_id": "507f1f77bcf86cd799439021",
+        "name": "Kevin",
+        "isBusiness": true
+    }
+]

@@ -11,6 +11,13 @@ import offerData from './data/offers.json' with { type: 'json' };
 import Product from './model/Product.js';
 import productData from './data/products.json' with { type: 'json' };
 
+import Order from './model/Order.js';
+
+import Limit from './model/Limit.js';
+
+import User from './model/User.js';
+import userData from './data/users.json' with { type: 'json' };
+
 const HOST = '0.0.0.0';
 const PORT = 5172;
 
@@ -43,6 +50,13 @@ async function main() {
 
   await Product.deleteMany({});
   await Product.insertMany(productData);
+
+  await Order.deleteMany({});
+
+  await Limit.deleteMany({});
+
+  await User.deleteMany({});
+  await User.insertMany(userData);
 
   app.listen(PORT, HOST, () => {
     console.log(`listening: http://localhost:${PORT}`);
