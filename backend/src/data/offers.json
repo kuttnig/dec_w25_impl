@@ -1,0 +1,127 @@
+[
+    {
+        "_id": "507f191e810c19729de860ea",
+        "price": 299.99,
+        "seller": "TechStore Pro"
+    },
+    {
+        "_id": "507f191e810c19729de860eb",
+        "price": 279.50,
+        "seller": "ElectroWorld"
+    },
+    {
+        "_id": "507f191e810c19729de860ec",
+        "price": 319.00,
+        "seller": "GadgetHub"
+    },
+    {
+        "_id": "507f191e810c19729de860ed",
+        "price": 289.99,
+        "seller": "Digital Solutions"
+    },
+    {
+        "_id": "507f191e810c19729de860ee",
+        "price": 309.50,
+        "seller": "Tech Valley"
+    },
+    {
+        "_id": "507f191e810c19729de860ef",
+        "price": 45.99,
+        "seller": "Garden Masters"
+    },
+    {
+        "_id": "507f191e810c19729de860f0",
+        "price": 39.50,
+        "seller": "Home Essentials"
+    },
+    {
+        "_id": "507f191e810c19729de860f1",
+        "price": 52.00,
+        "seller": "Outdoor Living Co"
+    },
+    {
+        "_id": "507f191e810c19729de860f2",
+        "price": 42.75,
+        "seller": "BuildIt Store"
+    },
+    {
+        "_id": "507f191e810c19729de860f3",
+        "price": 48.25,
+        "seller": "Green Space"
+    },
+    {
+        "_id": "507f191e810c19729de860f4",
+        "price": 129.99,
+        "seller": "SportGear Inc"
+    },
+    {
+        "_id": "507f191e810c19729de860f5",
+        "price": 119.50,
+        "seller": "Athletic World"
+    },
+    {
+        "_id": "507f191e810c19729de860f6",
+        "price": 145.00,
+        "seller": "Outdoor Experts"
+    },
+    {
+        "_id": "507f191e810c19729de860f7",
+        "price": 135.75,
+        "seller": "Adventure Supplies"
+    },
+    {
+        "_id": "507f191e810c19729de860f8",
+        "price": 140.00,
+        "seller": "Performance Sports"
+    },
+    {
+        "_id": "507f191e810c19729de860f9",
+        "price": 24.99,
+        "seller": "BookWorm Central"
+    },
+    {
+        "_id": "507f191e810c19729de860fa",
+        "price": 22.50,
+        "seller": "Page Turner Books"
+    },
+    {
+        "_id": "507f191e810c19729de860fb",
+        "price": 28.00,
+        "seller": "Media Palace"
+    },
+    {
+        "_id": "507f191e810c19729de860fc",
+        "price": 26.75,
+        "seller": "Literary Hub"
+    },
+    {
+        "_id": "507f191e810c19729de860fd",
+        "price": 25.50,
+        "seller": "Story World"
+    },
+    {
+        "_id": "507f191e810c19729de860fe",
+        "price": 89.99,
+        "seller": "Fashion Forward"
+    },
+    {
+        "_id": "507f191e810c19729de860ff",
+        "price": 79.50,
+        "seller": "Style Boutique"
+    },
+    {
+        "_id": "507f191e810c19729de86100",
+        "price": 99.00,
+        "seller": "Trend Setters"
+    },
+    {
+        "_id": "507f191e810c19729de86101",
+        "price": 85.75,
+        "seller": "Classic Wear"
+    },
+    {
+        "_id": "507f191e810c19729de86102",
+        "price": 94.00,
+        "seller": "Designer's Pick"
+    }
+]

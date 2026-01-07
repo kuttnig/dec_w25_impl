@@ -1,26 +1,26 @@
 [
     {
-        "_id": 1,
+        "_id": "507f1f77bcf86cd799439011",
         "name": "Electronics",
         "description": "Electronic devices and accessories"
     },
     {
-        "_id": 2,
+        "_id": "507f1f77bcf86cd799439012",
         "name": "Home & Garden",
         "description": "Home improvement and gardening supplies"
     },
     {
-        "_id": 3,
+        "_id": "507f1f77bcf86cd799439013",
         "name": "Sports & Outdoors",
         "description": "Sports equipment and outdoor gear"
     },
     {
-        "_id": 4,
+        "_id": "507f1f77bcf86cd799439014",
         "name": "Books & Media",
         "description": "Books, magazines, and media content"
     },
     {
-        "_id": 5,
+        "_id": "507f1f77bcf86cd799439015",
         "name": "Fashion & Accessories",
         "description": "Clothing, shoes, and fashion accessories"
     }
