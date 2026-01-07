@@ -1,0 +1,27 @@
+[
+    {
+        "_id": 1,
+        "name": "Electronics",
+        "description": "Electronic devices and accessories"
+    },
+    {
+        "_id": 2,
+        "name": "Home & Garden",
+        "description": "Home improvement and gardening supplies"
+    },
+    {
+        "_id": 3,
+        "name": "Sports & Outdoors",
+        "description": "Sports equipment and outdoor gear"
+    },
+    {
+        "_id": 4,
+        "name": "Books & Media",
+        "description": "Books, magazines, and media content"
+    },
+    {
+        "_id": 5,
+        "name": "Fashion & Accessories",
+        "description": "Clothing, shoes, and fashion accessories"
+    }
+]
