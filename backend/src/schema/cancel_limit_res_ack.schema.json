@@ -1,0 +1,23 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://marktverbund25.at/cancel_limit_res_ack.schema.json",
+    "title": "cancel limit order response ack",
+    "description": "format of response body acknowledge lim. order cancelation",
+    "type": "object",
+    "properties": {
+        "lim_id": {
+            "type": "number",
+            "exclusiveMinimum": 0
+        },
+        "status": {
+            "type": "string",
+            "enum": [
+                "pending"
+            ]
+        }
+    },
+    "required": [
+        "lim_id",
+        "status"
+    ]
+}

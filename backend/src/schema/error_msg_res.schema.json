@@ -5,8 +5,16 @@
     "description": "format of response body in case of error",
     "type": "object",
     "properties": {
-        "code": { "type": "number", "exclusiveMinimum": 0},
-        "msg": {"type": "string"}
+        "code": {
+            "type": "number",
+            "exclusiveMinimum": 0
+        },
+        "msg": {
+            "type": "string"
+        }
     },
-    "required": ["code", "msg"]
+    "required": [
+        "code",
+        "msg"
+    ]
 }
