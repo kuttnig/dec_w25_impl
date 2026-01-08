@@ -6,6 +6,7 @@
         "dev": "nodemon --legacy-watch src/server.js"
     },
     "dependencies": {
+        "ajv": "^8.17.1",
         "cors": "^2.8.5",
         "express": "^4.17.1",
         "mongoose": "^9.1.2"
