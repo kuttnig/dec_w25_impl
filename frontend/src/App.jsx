@@ -1,8 +1,32 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+import Admin from './Admin';
+
 export default function App() {
-  return <ProductList />;
+  const [view, setView] = useState('market');
+
+  return (
+    <main style={{ padding: 16 }}>
+      <header style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <h1 style={{ margin: 0 }}>Marketplace (Uni Projekt)</h1>
+        <nav style={{ display: 'flex', gap: 8 }}>
+          <button type="button" onClick={() => setView('market')} disabled={view === 'market'}>
+            Customer view
+          </button>
+          <button type="button" onClick={() => setView('admin')} disabled={view === 'admin'}>
+            Admin
+          </button>
+        </nav>
+      </header>
+
+      <hr />
+
+      {view === 'market' && <ProductList />}
+      {view === 'admin' && <Admin />}
+    </main>
+  );
 }
 
 function ProductList() {

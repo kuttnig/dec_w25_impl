@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 
 import initDatabase from './db/init.js';
 import productsRouter from './routes/products.js';
+import adminRouter from './routes/admin.js';
 
 const HOST = '0.0.0.0';
 const PORT = 5172;
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/products', productsRouter);
+app.use('/admin', adminRouter);
 
 async function main() {
   await mongoose.connect(MONGO_CON_STR);

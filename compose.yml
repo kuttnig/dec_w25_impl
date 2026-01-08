@@ -13,6 +13,11 @@ services:
       dockerfile: Dockerfile
     environment:
         - MONGO_CON_STR=mongodb://admin:admin@mongo-dev
+        # Simple admin protection for /admin endpoints
+        # Frontend must send this value as HTTP header: x-admin-key
+        - ADMIN_KEY=admin
+        # @Kevin: If you want a deterministic DB reset on every container start, set this to true
+        - RESET_DB=false
     ports:
       - "5172:5172"
     volumes:
@@ -28,4 +33,3 @@ services:
       - "5173:5173"
     volumes:
       - ./frontend/src:/app/src
-      

@@ -11,11 +11,12 @@ const limitSchema = new Schema({
   price: Number,
   product: {
     type: SchemaTypes.ObjectId,
-    ref: 'product',
+    // IMPORTANT: Mongoose `ref` must match the model name, which is "Product", right?
+    ref: 'Product',
   },
   order: {
     type: SchemaTypes.ObjectId,
-    ref: 'order',
+    ref: 'Order',
   },
 });
 
