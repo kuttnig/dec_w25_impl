@@ -5,7 +5,7 @@
     "description": "format of response body acknowledge lim. order cancelation",
     "type": "object",
     "properties": {
-        "lim_id": {
+        "limId": {
             "type": "string"
         },
         "status": {
@@ -16,7 +16,7 @@
         }
     },
     "required": [
-        "lim_id",
+        "limId",
         "status"
     ]
 }

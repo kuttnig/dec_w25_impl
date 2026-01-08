@@ -5,11 +5,11 @@
     "description": "format of request body to list offers for a product",
     "type": "object",
     "properties": {
-        "prod_id": {
+        "prodId": {
             "type": "string"
         }
     },
     "required": [
-        "prod_id"
+        "prodId"
     ]
 }

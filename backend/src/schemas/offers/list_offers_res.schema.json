@@ -10,7 +10,7 @@
             "items": {
                 "type": "object",
                 "properties": {
-                    "offer_id": {
+                    "offerId": {
                         "type": "string"
                     },
                     "seller": {
@@ -22,7 +22,7 @@
                     }
                 },
                 "required": [
-                    "offer_id",
+                    "offerId",
                     "seller",
                     "price"
                 ]

@@ -10,10 +10,10 @@
             "items": {
                 "type": "object",
                 "properties": {
-                    "lim_id": {
+                    "limId": {
                         "type": "string"
                     },
-                    "prod_id": {
+                    "prodId": {
                         "type": "string"
                     },
                     "price": {
@@ -30,8 +30,8 @@
                     }
                 },
                 "required": [
-                    "lim_id",
-                    "prod_id",
+                    "limId",
+                    "prodId",
                     "price",
                     "status"
                 ]

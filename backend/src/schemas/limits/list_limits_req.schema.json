@@ -5,11 +5,11 @@
     "description": "format of request body to list limit orders of a user",
     "type": "object",
     "properties": {
-        "user_id": {
+        "userId": {
             "type": "string"
         }
     },
     "required": [
-        "user_id"
+        "userId"
     ]
 }

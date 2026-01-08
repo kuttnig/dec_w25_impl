@@ -10,7 +10,7 @@
             "items": {
                 "type": "object",
                 "properties": {
-                    "prod_id": {
+                    "prodId": {
                         "type": "string"
                     },
                     "name": {
@@ -21,7 +21,7 @@
                     }
                 },
                 "required": [
-                    "prod_id",
+                    "prodId",
                     "name",
                     "description"
                 ]

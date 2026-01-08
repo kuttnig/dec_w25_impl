@@ -5,10 +5,10 @@
     "description": "format of request body to place a limit order on a product",
     "type": "object",
     "properties": {
-        "user_id": {
+        "userId": {
             "type": "string"
         },
-        "prod_id": {
+        "prodId": {
             "type": "string"
         },
         "price": {
@@ -21,8 +21,8 @@
         }
     },
     "required": [
-        "user_id",
-        "prod_id",
+        "userId",
+        "prodId",
         "price",
         "valid_till"
     ]

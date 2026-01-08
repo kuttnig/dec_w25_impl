@@ -5,11 +5,11 @@
     "description": "format of request body to cancel a limit order on a product",
     "type": "object",
     "properties": {
-        "lim_id": {
+        "limId": {
             "type": "string"
         }
     },
     "required": [
-        "lim_id"
+        "limId"
     ]
 }
