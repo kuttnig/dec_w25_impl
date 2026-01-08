@@ -11,16 +11,25 @@ const PORT = 5172;
 const { MONGO_CON_STR } = process.env;
 
 const app = express();
-app.use(cors());
 
-app.get('/test', async (req, res) => {
+app.use(cors());
+app.use(express.json());
+
+app.post('/products/List', async (req, res) => {
   try {
-    const productFound = await Product.findById('507f1f77bcf86cd799439017')
+    // todo: run schema check on req body
+
+    // todo: run graphQL query
+
+    // todo: run schema check on res body
+
+    // todo: rm placeholder
+    const productsFound = await Product.find()
       .populate('categories')
       .populate('offers')
       .exec();
 
-    res.json(productFound);
+    res.json(productsFound);
   } catch (e) {
     res.status(500).json({ msg: 'oopsie whoopsie' });
   }
