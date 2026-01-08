@@ -2,21 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 
-import Category from './model/Category.js';
-import categoryData from './data/categories.json' with { type: 'json' };
-
-import Offer from './model/Offer.js';
-import offerData from './data/offers.json' with { type: 'json' };
-
-import Product from './model/Product.js';
-import productData from './data/products.json' with { type: 'json' };
-
-import Order from './model/Order.js';
-
-import Limit from './model/Limit.js';
-
-import User from './model/User.js';
-import userData from './data/users.json' with { type: 'json' };
+import initDatabase from './db/init.js';
+import Product from './db/model/Product.js';
 
 const HOST = '0.0.0.0';
 const PORT = 5172;
@@ -28,35 +15,20 @@ app.use(cors());
 
 app.get('/test', async (req, res) => {
   try {
-    const productFound = await Product.findById("507f1f77bcf86cd799439016")
-    .populate('categories')
-    .populate('offers')
-    .exec();
+    const productFound = await Product.findById('507f1f77bcf86cd799439017')
+      .populate('categories')
+      .populate('offers')
+      .exec();
 
     res.json(productFound);
   } catch (e) {
-    res.status(500).json({msg: 'oopsie whoopsie'})
+    res.status(500).json({ msg: 'oopsie whoopsie' });
   }
 });
 
 async function main() {
   await mongoose.connect(MONGO_CON_STR);
-
-  await Category.deleteMany({});
-  await Category.insertMany(categoryData);
-
-  await Offer.deleteMany({});
-  await Offer.insertMany(offerData);
-
-  await Product.deleteMany({});
-  await Product.insertMany(productData);
-
-  await Order.deleteMany({});
-
-  await Limit.deleteMany({});
-
-  await User.deleteMany({});
-  await User.insertMany(userData);
+  await initDatabase();
 
   app.listen(PORT, HOST, () => {
     console.log(`listening: http://localhost:${PORT}`);
