@@ -1,0 +1,12 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://marktverbund25.at/error_msg_res.schema.json",
+    "title": "error response",
+    "description": "format of response body in case of error",
+    "type": "object",
+    "properties": {
+        "code": { "type": "number", "exclusiveMinimum": 0},
+        "msg": {"type": "string"}
+    },
+    "required": ["code", "msg"]
+}

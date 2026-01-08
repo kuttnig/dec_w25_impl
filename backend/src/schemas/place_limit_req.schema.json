@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marktverbund25.at/place_limit_req.schema.json",
+  "title": "place limit order request",
+  "description": "format of request body to place a limit order on a product",
+  "type": "object",
+  "properties": {
+        "user_id": { "type": "number", "exclusiveMinimum": 0},
+        "prod_id": { "type": "number", "exclusiveMinimum": 0},
+        "price": {"type": "number", "exclusiveMinimum": 0},
+        "valid_till": {"type": "string", "format": "date-time"}
+    },
+    "required": ["user_id", "prod_id", "price", "valid_till"]
+}

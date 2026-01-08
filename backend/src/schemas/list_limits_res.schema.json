@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marktverbund25.at/list_limits_res.schema.json",
+  "title": "list limit orders response",
+  "description": "format of response body to list limit orders of a user",
+  "type": "object",
+  "properties": {
+    "limits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+            "lim_id": { "type": "number", "exclusiveMinimum": 0},
+            "prod_id": { "type": "number", "exclusiveMinimum": 0},
+            "price": {"type": "number", "exclusiveMinimum": 0},
+            "status": {"type": "string", "enum": ["pending", "fulfilled", "expired", "canceled"]}
+        },
+        "required": ["lim_id", "prod_id", "price", "status"]
+        }
+      }
+    },
+  "required": ["limits"]
+}

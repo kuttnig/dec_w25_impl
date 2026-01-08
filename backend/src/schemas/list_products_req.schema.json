@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marktverbund25.at/list_prod_req.schema.json",
+  "title": "list products request",
+  "description": "format of request body to list available products"
+}
