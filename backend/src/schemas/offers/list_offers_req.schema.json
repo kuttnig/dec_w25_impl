@@ -1,13 +1,12 @@
 {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://marktverbund25.at/list_offers_req.schema.json",
     "title": "list offers request",
     "description": "format of request body to list offers for a product",
     "type": "object",
     "properties": {
         "prod_id": {
-            "type": "number",
-            "exclusiveMinimum": 0
+            "type": "string"
         }
     },
     "required": [
