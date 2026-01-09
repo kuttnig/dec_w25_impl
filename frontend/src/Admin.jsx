@@ -55,7 +55,7 @@ export default function Admin() {
             }}
           />
           <div className="muted" style={{ marginTop: 10 }}>
-            Default (docker compose): <code>admin</code>
+            Default: <code>admin</code>
           </div>
         </div>
       </section>
