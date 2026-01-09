@@ -29,7 +29,26 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    environment:
+      # used by vite.config.js (proxy /api -> backend)
+      - VITE_PROXY_TARGET=http://express-dev:5172
     ports:
+      # Optional: direct access for debugging (http)
       - "5173:5173"
     volumes:
       - ./frontend/src:/app/src
+      - ./frontend/vite.config.js:/app/vite.config.js
+    depends_on:
+      - express-dev
+
+  reverse-proxy:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      # HTTPS entrypoint for the whole system
+      - "8443:443"
+      - "8080:80"
+    depends_on:
+      - react-dev
+      - express-dev
