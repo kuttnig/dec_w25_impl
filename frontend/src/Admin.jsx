@@ -1,91 +1,125 @@
 import { useMemo, useState } from 'react';
-import axios from 'axios';
 import {
-  useMutation,
-  useQuery,
-  useQueryClient,
+  useMutation, useQuery, useQueryClient,
 } from '@tanstack/react-query';
 
-const API_BASE = 'http://localhost:5172';
+import { createAdminApi } from './api';
+
 const ADMIN_KEY_STORAGE = 'adminKey';
 
 function getStoredAdminKey() {
   return localStorage.getItem(ADMIN_KEY_STORAGE) || '';
 }
-
 function setStoredAdminKey(key) {
   localStorage.setItem(ADMIN_KEY_STORAGE, key);
 }
-
 function clearStoredAdminKey() {
   localStorage.removeItem(ADMIN_KEY_STORAGE);
-}
-
-function createAdminApi(adminKey) {
-  return axios.create({
-    baseURL: API_BASE,
-    headers: {
-      'x-admin-key': adminKey,
-    },
-  });
 }
 
 export default function Admin() {
   const [adminKey, setAdminKey] = useState(getStoredAdminKey());
   const [tab, setTab] = useState('overview');
+  const [flash, setFlash] = useState(null);
 
   const api = useMemo(() => createAdminApi(adminKey), [adminKey]);
 
-  // If we get 401 errors, we want to force the user to login again.
-  const handleUnauthorized = () => {
+  const onUnauthorized = () => {
     clearStoredAdminKey();
     setAdminKey('');
     setTab('overview');
+    setFlash({ type: 'error', text: 'Session expired or invalid admin key. Please login again.' });
   };
 
   if (!adminKey) {
     return (
-      <AdminLogin
-        onLogin={(key) => {
-          setStoredAdminKey(key);
-          setAdminKey(key);
-        }}
-      />
+      <section className="stack">
+        <div className="pageTitleRow">
+          <h2 className="pageTitle">Admin Console</h2>
+          <span className="badge badgeAdmin">Admin</span>
+        </div>
+
+        <div className="card">
+          <div className="cardHeader">
+            <div>
+              <div className="cardTitle">Login</div>
+              <div className="muted">Enter admin key to access administration features.</div>
+            </div>
+          </div>
+
+          <AdminLogin
+            onLogin={(key) => {
+              setStoredAdminKey(key);
+              setAdminKey(key);
+              setFlash({ type: 'success', text: 'Logged in.' });
+            }}
+          />
+          <div className="muted" style={{ marginTop: 10 }}>
+            Default (docker compose): <code>admin</code>
+          </div>
+        </div>
+      </section>
     );
   }
 
   return (
-    <section>
-      <header style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-        <h2 style={{ margin: 0 }}>Admin</h2>
-        <nav style={{ display: 'flex', gap: 8 }}>
-          <button type="button" onClick={() => setTab('overview')} disabled={tab === 'overview'}>
-            Overview
-          </button>
-          <button type="button" onClick={() => setTab('users')} disabled={tab === 'users'}>
-            Users
-          </button>
-          <button type="button" onClick={() => setTab('products')} disabled={tab === 'products'}>
-            Products & Offers
-          </button>
-        </nav>
-        <div style={{ marginLeft: 'auto' }}>
+    <section className="stack">
+      <div className="pageTitleRow">
+        <div>
+          <h2 className="pageTitle">Admin Console</h2>
+          <div className="muted">marktverbund25.at · manage users, products & offers</div>
+        </div>
+
+        <div className="row">
+          <span className="badge badgeAdmin">Admin</span>
           <button
             type="button"
+            className="btn btnGhost"
             onClick={() => {
-              handleUnauthorized();
+              onUnauthorized();
             }}
           >
             Logout
           </button>
         </div>
-      </header>
+      </div>
 
-      <hr />
+      <div className="tabs">
+        <button
+          type="button"
+          className={`btn btnTab ${tab === 'overview' ? 'btnTabActive' : ''}`}
+          onClick={() => setTab('overview')}
+        >
+          Overview
+        </button>
+        <button
+          type="button"
+          className={`btn btnTab ${tab === 'users' ? 'btnTabActive' : ''}`}
+          onClick={() => setTab('users')}
+        >
+          Users
+        </button>
+        <button
+          type="button"
+          className={`btn btnTab ${tab === 'products' ? 'btnTabActive' : ''}`}
+          onClick={() => setTab('products')}
+        >
+          Products & Offers
+        </button>
+      </div>
 
-      {tab === 'overview' && <AdminOverview api={api} onUnauthorized={handleUnauthorized} />}
-      {tab === 'users' && <AdminUsers api={api} onUnauthorized={handleUnauthorized} />}
-      {tab === 'products' && <AdminProducts api={api} onUnauthorized={handleUnauthorized} />}
+      {flash && (
+        <div className={`alert ${flash.type === 'error' ? 'alertError' : 'alertSuccess'}`}>
+          <div>{flash.text}</div>
+          <button type="button" className="btn btnGhost btnSmall" onClick={() => setFlash(null)}>
+            Close
+          </button>
+        </div>
+      )}
+
+      {tab === 'overview' && <AdminOverview api={api} onUnauthorized={onUnauthorized} />}
+      {tab === 'users' && <AdminUsers api={api} onUnauthorized={onUnauthorized} setFlash={setFlash} />}
+      {tab === 'products' && <AdminProducts api={api} onUnauthorized={onUnauthorized} setFlash={setFlash} />}
     </section>
   );
 }
@@ -94,37 +128,28 @@ function AdminLogin({ onLogin }) {
   const [key, setKey] = useState('');
 
   return (
-    <section>
-      <h2>Admin Login</h2>
-      <p style={{ fontWeight: 'normal' }}>
-        This project uses a simple admin key.
-        Default (docker compose) is <code>admin</code>.
-      </p>
+    <form
+      className="formRow"
+      onSubmit={(e) => {
+        e.preventDefault();
+        const cleaned = key.trim();
+        if (!cleaned) return;
+        onLogin(cleaned);
+      }}
+    >
+      <label className="field">
+        <span className="fieldLabel">Admin key</span>
+        <input
+          className="input"
+          type="password"
+          value={key}
+          onChange={(e) => setKey(e.target.value)}
+          placeholder="admin"
+        />
+      </label>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const cleaned = key.trim();
-          if (!cleaned) return;
-          onLogin(cleaned);
-        }}
-      >
-        <label htmlFor="adminKey">
-          Admin key
-          <br />
-          <input
-            id="adminKey"
-            type="password"
-            value={key}
-            onChange={(e) => setKey(e.target.value)}
-            placeholder="admin"
-          />
-        </label>
-        <div style={{ marginTop: 8 }}>
-          <button type="submit">Login</button>
-        </div>
-      </form>
-    </section>
+      <button className="btn btnPrimary" type="submit">Login</button>
+    </form>
   );
 }
 
@@ -142,36 +167,34 @@ function AdminOverview({ api, onUnauthorized }) {
     },
   });
 
-  if (overviewQuery.isPending) return <p>Loading overview…</p>;
-  if (overviewQuery.isError) return <p>Failed to load overview.</p>;
+  if (overviewQuery.isPending) return <p className="muted">Loading overview…</p>;
+  if (overviewQuery.isError) return <p className="alert alertError">Failed to load overview.</p>;
 
   const { users, catalog, transactions } = overviewQuery.data;
 
   return (
-    <section>
-      <h3>Overview</h3>
-
-      <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-        <StatCard title="Users" lines={[`Total: ${users.total}`, `Business: ${users.business}`, `Customers: ${users.customers}`]} />
-        <StatCard title="Catalog" lines={[`Categories: ${catalog.categories}`, `Products: ${catalog.products}`, `Offers: ${catalog.offers}`]} />
-        <StatCard title="Transactions" lines={[`Orders: ${transactions.orders}`, `Limit Orders: ${transactions.limits}`]} />
-      </div>
-    </section>
+    <div className="grid3">
+      <StatCard title="Users" lines={[`Total: ${users.total}`, `Business: ${users.business}`, `Customers: ${users.customers}`]} />
+      <StatCard title="Catalog" lines={[`Categories: ${catalog.categories}`, `Products: ${catalog.products}`, `Offers: ${catalog.offers}`]} />
+      <StatCard title="Transactions" lines={[`Orders: ${transactions.orders}`, `Limit Orders: ${transactions.limits}`]} />
+    </div>
   );
 }
 
 function StatCard({ title, lines }) {
   return (
-    <div style={{ border: '1px solid #ddd', padding: 12, minWidth: 220 }}>
-      <strong>{title}</strong>
-      <ul style={{ margin: '8px 0 0 16px' }}>
+    <div className="card">
+      <div className="cardHeader">
+        <div className="cardTitle">{title}</div>
+      </div>
+      <ul className="list">
         {lines.map((l) => <li key={l}>{l}</li>)}
       </ul>
     </div>
   );
 }
 
-function AdminUsers({ api, onUnauthorized }) {
+function AdminUsers({ api, onUnauthorized, setFlash }) {
   const queryClient = useQueryClient();
   const [newName, setNewName] = useState('');
   const [newIsBusiness, setNewIsBusiness] = useState(false);
@@ -194,11 +217,13 @@ function AdminUsers({ api, onUnauthorized }) {
     onSuccess: async () => {
       setNewName('');
       setNewIsBusiness(false);
+      setFlash({ type: 'success', text: 'User created.' });
       await queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
       await queryClient.invalidateQueries({ queryKey: ['admin', 'overview'] });
     },
     onError: (err) => {
       if (err?.response?.status === 401) onUnauthorized();
+      setFlash({ type: 'error', text: 'Failed to create user.' });
     },
   });
 
@@ -210,109 +235,133 @@ function AdminUsers({ api, onUnauthorized }) {
     },
     onError: (err) => {
       if (err?.response?.status === 401) onUnauthorized();
+      setFlash({ type: 'error', text: 'Failed to update user.' });
     },
   });
 
   const deleteUserMutation = useMutation({
     mutationFn: async (id) => api.delete(`/admin/users/${id}`),
     onSuccess: async () => {
+      setFlash({ type: 'success', text: 'User deleted.' });
       await queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
       await queryClient.invalidateQueries({ queryKey: ['admin', 'overview'] });
     },
     onError: (err) => {
       if (err?.response?.status === 401) onUnauthorized();
+      setFlash({ type: 'error', text: 'Failed to delete user.' });
     },
   });
 
-  if (usersQuery.isPending) return <p>Loading users…</p>;
-  if (usersQuery.isError) return <p>Failed to load users.</p>;
+  if (usersQuery.isPending) return <p className="muted">Loading users…</p>;
+  if (usersQuery.isError) return <p className="alert alertError">Failed to load users.</p>;
 
   const { users } = usersQuery.data;
 
   return (
-    <section>
-      <h3>Users</h3>
+    <div className="stack">
+      <div className="card">
+        <div className="cardHeader">
+          <div>
+            <div className="cardTitle">Create user</div>
+            <div className="muted">Business users are required for B2B flows.</div>
+          </div>
+        </div>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!newName.trim()) return;
-          createUserMutation.mutate();
-        }}
-        style={{ border: '1px solid #eee', padding: 12, marginBottom: 12 }}
-      >
-        <strong>Create user</strong>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap', marginTop: 8 }}>
-          <label htmlFor="newUserName">
-            Name
-            <br />
+        <form
+          className="formRow"
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (!newName.trim()) return;
+            createUserMutation.mutate();
+          }}
+        >
+          <label className="field">
+            <span className="fieldLabel">Name</span>
             <input
-              id="newUserName"
+              className="input"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder="e.g. Alice"
             />
           </label>
-          <label htmlFor="newUserIsBusiness" style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+
+          <label className="check">
             <input
-              id="newUserIsBusiness"
               type="checkbox"
               checked={newIsBusiness}
               onChange={(e) => setNewIsBusiness(e.target.checked)}
             />
-            Business user
+            <span>Business user</span>
           </label>
-          <button type="submit" disabled={createUserMutation.isPending}>
+
+          <button className="btn btnPrimary" type="submit" disabled={createUserMutation.isPending}>
             {createUserMutation.isPending ? 'Creating…' : 'Create'}
           </button>
-        </div>
-      </form>
+        </form>
+      </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Business?</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((u) => (
-            <tr key={u.id}>
-              <td>{u.name}</td>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={u.isBusiness}
-                  onChange={(e) => {
-                    updateUserMutation.mutate({
-                      id: u.id,
-                      patch: { isBusiness: e.target.checked },
-                    });
-                  }}
-                />
-              </td>
-              <td>
-                <button
-                  type="button"
-                  onClick={() => {
-                    // eslint-disable-next-line no-alert
-                    if (window.confirm(`Delete user "${u.name}"?`)) deleteUserMutation.mutate(u.id);
-                  }}
-                  disabled={deleteUserMutation.isPending}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </section>
+      <div className="card">
+        <div className="cardHeader">
+          <div className="cardTitle">Users</div>
+        </div>
+
+        <div className="tableWrap">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Business?</th>
+                <th />
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((u) => (
+                <tr key={u.id}>
+                  <td>{u.name}</td>
+                  <td>
+                    <label className="check">
+                      <input
+                        type="checkbox"
+                        checked={u.isBusiness}
+                        onChange={(e) => {
+                          updateUserMutation.mutate({
+                            id: u.id,
+                            patch: { isBusiness: e.target.checked },
+                          });
+                        }}
+                      />
+                      <span className="muted">isBusiness</span>
+                    </label>
+                  </td>
+                  <td className="right">
+                    <button
+                      type="button"
+                      className="btn btnDanger"
+                      onClick={() => {
+                        // eslint-disable-next-line no-alert
+                        if (window.confirm(`Delete user "${u.name}"?`)) deleteUserMutation.mutate(u.id);
+                      }}
+                      disabled={deleteUserMutation.isPending}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {!users.length && (
+                <tr>
+                  <td colSpan={3} className="muted">No users.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   );
 }
 
-function AdminProducts({ api, onUnauthorized }) {
+function AdminProducts({ api, onUnauthorized, setFlash }) {
   const queryClient = useQueryClient();
 
   const [newProdName, setNewProdName] = useState('');
@@ -355,124 +404,130 @@ function AdminProducts({ api, onUnauthorized }) {
       setNewProdName('');
       setNewProdDesc('');
       setSelectedCategoryIds([]);
+      setFlash({ type: 'success', text: 'Product created.' });
       await queryClient.invalidateQueries({ queryKey: ['admin', 'products'] });
       await queryClient.invalidateQueries({ queryKey: ['admin', 'overview'] });
     },
     onError: (err) => {
       if (err?.response?.status === 401) onUnauthorized();
+      setFlash({ type: 'error', text: 'Failed to create product.' });
     },
   });
 
   const addOfferMutation = useMutation({
     mutationFn: async ({ productId, seller, price }) => api.post(`/admin/products/${productId}/offers`, { seller, price }),
     onSuccess: async () => {
+      setFlash({ type: 'success', text: 'Offer added.' });
       await queryClient.invalidateQueries({ queryKey: ['admin', 'products'] });
       await queryClient.invalidateQueries({ queryKey: ['admin', 'overview'] });
     },
     onError: (err) => {
       if (err?.response?.status === 401) onUnauthorized();
+      setFlash({ type: 'error', text: 'Failed to add offer.' });
     },
   });
 
   const deleteOfferMutation = useMutation({
     mutationFn: async ({ productId, offerId }) => api.delete(`/admin/products/${productId}/offers/${offerId}`),
     onSuccess: async () => {
+      setFlash({ type: 'success', text: 'Offer removed.' });
       await queryClient.invalidateQueries({ queryKey: ['admin', 'products'] });
       await queryClient.invalidateQueries({ queryKey: ['admin', 'overview'] });
     },
     onError: (err) => {
       if (err?.response?.status === 401) onUnauthorized();
+      setFlash({ type: 'error', text: 'Failed to remove offer.' });
     },
   });
 
   const deleteProductMutation = useMutation({
     mutationFn: async (productId) => api.delete(`/admin/products/${productId}`),
     onSuccess: async () => {
+      setFlash({ type: 'success', text: 'Product deleted.' });
       await queryClient.invalidateQueries({ queryKey: ['admin', 'products'] });
       await queryClient.invalidateQueries({ queryKey: ['admin', 'overview'] });
     },
     onError: (err) => {
       if (err?.response?.status === 401) onUnauthorized();
+      setFlash({ type: 'error', text: 'Failed to delete product.' });
     },
   });
 
-  if (categoriesQuery.isPending || productsQuery.isPending) return <p>Loading products…</p>;
-  if (categoriesQuery.isError || productsQuery.isError) return <p>Failed to load products or categories.</p>;
+  if (categoriesQuery.isPending || productsQuery.isPending) return <p className="muted">Loading products…</p>;
+  if (categoriesQuery.isError || productsQuery.isError) return <p className="alert alertError">Failed to load products.</p>;
 
   const { categories } = categoriesQuery.data;
   const { products } = productsQuery.data;
 
   return (
-    <section>
-      <h3>Products & Offers</h3>
-
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!newProdName.trim()) return;
-          createProductMutation.mutate();
-        }}
-        style={{ border: '1px solid #eee', padding: 12, marginBottom: 12 }}
-      >
-        <strong>Create product</strong>
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 8 }}>
-          <label htmlFor="newProdName">
-            Name
-            <br />
-            <input
-              id="newProdName"
-              value={newProdName}
-              onChange={(e) => setNewProdName(e.target.value)}
-              placeholder="e.g. USB-C Cable"
-            />
-          </label>
-
-          <label htmlFor="newProdDesc">
-            Description
-            <br />
-            <input
-              id="newProdDesc"
-              value={newProdDesc}
-              onChange={(e) => setNewProdDesc(e.target.value)}
-              placeholder="short description"
-            />
-          </label>
-        </div>
-
-        <div style={{ marginTop: 8 }}>
-          <div style={{ marginBottom: 4 }}>Categories</div>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            {categories.map((c) => {
-              const checked = selectedCategoryIds.includes(c.id);
-              return (
-                <label key={c.id} htmlFor={`cat-${c.id}`} style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                  <input
-                    id={`cat-${c.id}`}
-                    type="checkbox"
-                    checked={checked}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedCategoryIds((prev) => [...prev, c.id]);
-                      } else {
-                        setSelectedCategoryIds((prev) => prev.filter((x) => x !== c.id));
-                      }
-                    }}
-                  />
-                  {c.name}
-                </label>
-              );
-            })}
+    <div className="stack">
+      <div className="card">
+        <div className="cardHeader">
+          <div>
+            <div className="cardTitle">Create product</div>
+            <div className="muted">Products + Offers are required for order / limit order demos.</div>
           </div>
         </div>
 
-        <div style={{ marginTop: 8 }}>
-          <button type="submit" disabled={createProductMutation.isPending}>
-            {createProductMutation.isPending ? 'Creating…' : 'Create product'}
-          </button>
-        </div>
-      </form>
+        <form
+          className="stack"
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (!newProdName.trim()) return;
+            createProductMutation.mutate();
+          }}
+        >
+          <div className="formRow">
+            <label className="field">
+              <span className="fieldLabel">Name</span>
+              <input
+                className="input"
+                value={newProdName}
+                onChange={(e) => setNewProdName(e.target.value)}
+                placeholder="e.g. USB-C Cable"
+              />
+            </label>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <label className="field">
+              <span className="fieldLabel">Description</span>
+              <input
+                className="input"
+                value={newProdDesc}
+                onChange={(e) => setNewProdDesc(e.target.value)}
+                placeholder="short description"
+              />
+            </label>
+
+            <button className="btn btnPrimary" type="submit" disabled={createProductMutation.isPending}>
+              {createProductMutation.isPending ? 'Creating…' : 'Create'}
+            </button>
+          </div>
+
+          <div className="stack">
+            <div className="fieldLabel">Categories</div>
+            <div className="row wrap">
+              {categories.map((c) => {
+                const checked = selectedCategoryIds.includes(c.id);
+                return (
+                  <label key={c.id} className="chip">
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={(e) => {
+                        if (e.target.checked) setSelectedCategoryIds((prev) => [...prev, c.id]);
+                        else setSelectedCategoryIds((prev) => prev.filter((x) => x !== c.id));
+                      }}
+                    />
+                    <span>{c.name}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div className="stack">
         {products.map((p) => (
           <ProductCard
             key={p.id}
@@ -482,8 +537,13 @@ function AdminProducts({ api, onUnauthorized }) {
             onDeleteProduct={() => deleteProductMutation.mutate(p.id)}
           />
         ))}
+        {!products.length && (
+          <div className="card">
+            <div className="muted">No products yet.</div>
+          </div>
+        )}
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -492,96 +552,107 @@ function ProductCard({ product, onAddOffer, onDeleteOffer, onDeleteProduct }) {
   const [price, setPrice] = useState('');
 
   return (
-    <div style={{ border: '1px solid #ddd', padding: 12 }}>
-      <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-        <strong>{product.name}</strong>
-        <span style={{ marginLeft: 'auto', fontSize: 12, opacity: 0.8 }}>
-          {product.categories?.length ? `Categories: ${product.categories.map((c) => c.name).join(', ')}` : 'No category'}
-        </span>
+    <div className="card">
+      <div className="cardHeader">
+        <div>
+          <div className="cardTitle">{product.name}</div>
+          <div className="muted">{product.description || '—'}</div>
+          <div className="muted" style={{ marginTop: 6 }}>
+            {product.categories?.length
+              ? `Categories: ${product.categories.map((c) => c.name).join(', ')}`
+              : 'No categories'}
+          </div>
+        </div>
+
         <button
           type="button"
+          className="btn btnDanger"
           onClick={() => {
             // eslint-disable-next-line no-alert
             if (window.confirm(`Delete product "${product.name}" (and its offers)?`)) onDeleteProduct();
           }}
         >
-          Delete product
+          Delete
         </button>
       </div>
-      <div style={{ marginTop: 6 }}>{product.description}</div>
 
-      <h4 style={{ marginBottom: 6 }}>Offers</h4>
-      {product.offers?.length ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Seller</th>
-              <th>Price</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {product.offers.map((o) => (
-              <tr key={o.id}>
-                <td>{o.seller}</td>
-                <td>{o.price}</td>
-                <td>
-                  <button type="button" onClick={() => onDeleteOffer(o.id)}>
-                    Remove
-                  </button>
-                </td>
+      <div className="stack">
+        <div className="divider" />
+
+        <div className="row between">
+          <div>
+            <div className="cardTitle" style={{ fontSize: 14 }}>Offers</div>
+            <div className="muted">Seller + price</div>
+          </div>
+        </div>
+
+        <div className="tableWrap">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Seller</th>
+                <th>Price</th>
+                <th />
               </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p style={{ fontWeight: 'normal' }}>No offers yet.</p>
-      )}
+            </thead>
+            <tbody>
+              {(product.offers || []).map((o) => (
+                <tr key={o.id}>
+                  <td>{o.seller}</td>
+                  <td>{o.price}</td>
+                  <td className="right">
+                    <button type="button" className="btn btnGhost" onClick={() => onDeleteOffer(o.id)}>
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {!product.offers?.length && (
+                <tr>
+                  <td colSpan={3} className="muted">No offers yet.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const sellerClean = seller.trim();
-          const priceNumber = Number(price);
-          if (!sellerClean) return;
-          if (Number.isNaN(priceNumber) || priceNumber <= 0) return;
+        <form
+          className="formRow"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const sellerClean = seller.trim();
+            const priceNumber = Number(price);
+            if (!sellerClean) return;
+            if (Number.isNaN(priceNumber) || priceNumber <= 0) return;
 
-          onAddOffer({ seller: sellerClean, price: priceNumber });
-          setSeller('');
-          setPrice('');
-        }}
-        style={{ marginTop: 10, borderTop: '1px solid #eee', paddingTop: 10 }}
-      >
-        <strong>Add offer</strong>
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 8 }}>
-          <label htmlFor={`seller-${product.id}`}>
-            Seller
-            <br />
+            onAddOffer({ seller: sellerClean, price: priceNumber });
+            setSeller('');
+            setPrice('');
+          }}
+        >
+          <label className="field">
+            <span className="fieldLabel">Seller</span>
             <input
-              id={`seller-${product.id}`}
+              className="input"
               value={seller}
               onChange={(e) => setSeller(e.target.value)}
               placeholder="e.g. MyShop GmbH"
             />
           </label>
 
-          <label htmlFor={`price-${product.id}`}>
-            Price
-            <br />
+          <label className="field">
+            <span className="fieldLabel">Price</span>
             <input
-              id={`price-${product.id}`}
+              className="input"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               placeholder="e.g. 19.99"
             />
           </label>
 
-          <button type="submit">Add</button>
-        </div>
-        <p style={{ fontWeight: 'normal', fontSize: 12, opacity: 0.75 }}>
-          Tip: price must be a positive number.
-        </p>
-      </form>
+          <button className="btn btnPrimary" type="submit">Add offer</button>
+        </form>
+      </div>
     </div>
   );
 }
