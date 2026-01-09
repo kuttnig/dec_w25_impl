@@ -13,6 +13,11 @@ services:
       dockerfile: Dockerfile
     environment:
         - MONGO_CON_STR=mongodb://admin:admin@mongo-dev
+        # Simple admin protection for /admin endpoints
+        # Frontend must send this value as HTTP header: x-admin-key
+        - ADMIN_KEY=admin
+        # @Kevin: If you want a deterministic DB reset on every container start, set this to true
+        - RESET_DB=false
     ports:
       - "5172:5172"
     volumes:
@@ -24,8 +29,26 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    environment:
+      # used by vite.config.js (proxy /api -> backend)
+      - VITE_PROXY_TARGET=http://express-dev:5172
     ports:
+      # Optional: direct access for debugging (http)
       - "5173:5173"
     volumes:
       - ./frontend/src:/app/src
-      
+      - ./frontend/vite.config.js:/app/vite.config.js
+    depends_on:
+      - express-dev
+
+  reverse-proxy:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      # HTTPS entrypoint for the whole system
+      - "8443:443"
+      - "8080:80"
+    depends_on:
+      - react-dev
+      - express-dev

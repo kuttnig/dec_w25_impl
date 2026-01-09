@@ -12,19 +12,42 @@ import productData from './data/products.json' with { type: 'json' };
 import userData from './data/users.json' with { type: 'json' };
 
 export default async function initDatabase() {
-  await Category.deleteMany({});
-  await Category.insertMany(categoryData);
+  // Info by Raphael:
+  // IMPORTANT for development:
+  // With nodemon the backend restarts often. If we ALWAYS delete+insert,
+  // every code change would wipe the DB and you would lose created data.
+  //
+  // Behaviour:
+  // - If RESET_DB=true: wipe & re-seed everything (deterministic demo data)
+  // - Otherwise: seed only when the collection is empty
+  const reset = (process.env.RESET_DB || '').toLowerCase() === 'true';
 
-  await Offer.deleteMany({});
-  await Offer.insertMany(offerData);
+  if (reset) {
+    await Category.deleteMany({});
+    await Offer.deleteMany({});
+    await Product.deleteMany({});
+    await User.deleteMany({});
+    await Order.deleteMany({});
+    await Limit.deleteMany({});
 
-  await Product.deleteMany({});
-  await Product.insertMany(productData);
+    await Category.insertMany(categoryData);
+    await Offer.insertMany(offerData);
+    await Product.insertMany(productData);
+    await User.insertMany(userData);
+    return;
+  }
 
-  await User.deleteMany({});
-  await User.insertMany(userData);
-
-  await Order.deleteMany({});
-
-  await Limit.deleteMany({});
+  // Seed only if empty
+  if (await Category.countDocuments() === 0) {
+    await Category.insertMany(categoryData);
+  }
+  if (await Offer.countDocuments() === 0) {
+    await Offer.insertMany(offerData);
+  }
+  if (await Product.countDocuments() === 0) {
+    await Product.insertMany(productData);
+  }
+  if (await User.countDocuments() === 0) {
+    await User.insertMany(userData);
+  }
 }
