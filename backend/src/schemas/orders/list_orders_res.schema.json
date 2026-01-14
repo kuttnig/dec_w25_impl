@@ -10,7 +10,7 @@
             "items": {
                 "type": "object",
                 "properties": {
-                    "orderid": {
+                    "orderId": {
                         "type": "string"
                     },
                     "offerId": {
@@ -25,7 +25,7 @@
                     }
                 },
                 "required": [
-                    "orderid",
+                    "orderId",
                     "offerId",
                     "status"
                 ]
