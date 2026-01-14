@@ -5,7 +5,7 @@ const { Schema, SchemaTypes, model } = mongoose;
 const orderSchema = new Schema({
   status: {
     type: String,
-    enum: ['pending', 'fulfilled', 'expired', 'canceled'],
+    enum: ['pending', 'canceled'],
   },
   createdAt: {
     type: Date,
