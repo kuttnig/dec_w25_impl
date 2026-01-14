@@ -26,6 +26,19 @@ router.post('/List', (req, res, next) => {
   let offerList = await Offer.aggregate([
     { $match: { _id: { $in: product.offers } } },
     {
+      $lookup: {
+        from: 'orders',
+        localField: '_id',
+        foreignField: 'offer',
+        as: 'orders'
+      }
+    },
+    {
+      $match: {
+        'orders.status': { $ne: 'pending' }
+      }
+    },
+    {
       $project: {
         _id: 0,
         offerId: { $toString: '$_id' },

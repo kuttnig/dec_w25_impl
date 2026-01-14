@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { api } from './api';
+
+// prototype doesn't support identification currently
+const USER_ID = '507f1f77bcf86cd799439020';
 
 export default function Marketplace() {
   const [selectedProdId, setSelectedProdId] = useState(null);
@@ -77,11 +80,23 @@ function ProductList({ setSelectedProdId }) {
 }
 
 function OfferList({ selectedProdId, setSelectedProdId }) {
+  const queryClient = useQueryClient();
+
   const offerListQuery = useQuery({
     queryKey: ['offers', 'list', selectedProdId],
     queryFn: async () => {
       const response = await api.post('/offers/List', { prodId: selectedProdId });
       return response.data;
+    },
+  });
+
+  const placeOfferMutation = useMutation({
+    mutationFn: (reqBody) => {
+      const response = api.post('/orders/Place', reqBody);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.resetQueries({ queryKey: ['offers', 'list', selectedProdId] });
     },
   });
 
@@ -111,12 +126,24 @@ function OfferList({ selectedProdId, setSelectedProdId }) {
           <thead>
             <tr>
               {offerProps.map((prop) => <th key={prop}>{prop}</th>)}
+              <th>actions</th>
             </tr>
           </thead>
           <tbody>
             {offers.map((offer) => (
               <tr key={offer.offerId}>
                 {offerProps.map((prop) => <td key={`${offer.offerId}-${prop}`}>{offer[prop]}</td>)}
+                <td>
+                  <button
+                    className="btn btnGhost"
+                    type="button"
+                    onClick={() => {
+                      placeOfferMutation.mutate({ userId: USER_ID, offerId: offer.offerId });
+                    }}
+                  >
+                    buy
+                  </button>
+                </td>
               </tr>
             ))}
             {!offers.length && (
