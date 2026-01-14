@@ -9,6 +9,8 @@ import placeReqSchema from '../schemas/orders/place_order_req.schema.json' with 
 import placeResSchema from '../schemas/orders/place_order_res.schema.json' with { type: 'json' };
 import listReqSchema from '../schemas/orders/list_orders_req.schema.json' with { type: 'json' };
 import listResSchema from '../schemas/orders/list_orders_res.schema.json' with { type: 'json' };
+import cancelReqSchema from '../schemas/orders/cancel_order_req.schema.json' with { type: 'json' };
+import cancelResSchema from '../schemas/orders/cancel_order_res.schema.json' with { type: 'json' };
 
 const router = express.Router();
 const ajv = new Ajv();
@@ -17,6 +19,8 @@ const validatePlaceReq = ajv.compile(placeReqSchema);
 const validatePlaceRes = ajv.compile(placeResSchema);
 const validateListReq = ajv.compile(listReqSchema);
 const validateListRes = ajv.compile(listResSchema);
+const validateCancelReq = ajv.compile(cancelReqSchema);
+const validateCancelRes = ajv.compile(cancelResSchema);
 
 router.post('/Place', (req, res, next) => {
   if (!validatePlaceReq(req.body)) {
@@ -87,13 +91,39 @@ router.post('/List', (req, res, next) => {
    ]);
   orders = orders[0];
   
-  console.log(orders)
   if (!validateListRes(orders)) {
     res.status(500).json({ msg: 'res schema mismatch' });
     return;
   }
 
   res.json(orders);
+});
+
+router.post('/Cancel', (req, res, next) => {
+  if (!validateCancelReq(req.body)) {
+    res.status(400).json({ msg: 'req schema mismatch' });
+    return;
+  }
+  next();
+}, async (req, res) => {
+  const {orderId} = req.body;
+
+  const canceledOrder = await Order.findByIdAndUpdate(
+    new mongoose.Types.ObjectId(orderId),
+    { status: 'canceled' },
+    { new: true }
+  );
+
+  const cancelAck = {orderId: String(canceledOrder._id),  status: canceledOrder.status};
+
+  console.log(cancelAck);
+
+  if (!validateCancelRes(cancelAck)) {
+    console.log(validateCancelRes.errors)
+    res.status(500).json({ msg: 'res schema mismatch' });
+    return;
+  }
+  res.json(cancelAck);
 });
 
 export default router;
