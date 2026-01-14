@@ -8,16 +8,29 @@ const USER_ID = '507f1f77bcf86cd799439020';
 
 export default function Marketplace() {
   const [selectedProdId, setSelectedProdId] = useState(null);
+  const [showOrders, setShowOrders] = useState(false);
 
   return (
     <section className="stack">
       <div className="pageTitleRow">
         <h2 className="pageTitle">Marketplace</h2>
-        <span className="badge">Customer view</span>
+
+        <button
+          className="btn btnGhost"
+          type="button"
+          onClick={() => {
+            setShowOrders(!showOrders);
+            setSelectedProdId(null);
+          }}
+        >
+          {showOrders ? 'Browse Products' : 'My Orders'}
+        </button>
       </div>
-      {selectedProdId ? (
+      {showOrders && <OrderList />}
+      {!showOrders && selectedProdId && (
         <OfferList selectedProdId={selectedProdId} setSelectedProdId={setSelectedProdId} />
-      ) : (
+      )}
+      {!showOrders && !selectedProdId && (
         <ProductList setSelectedProdId={setSelectedProdId} />
       )}
     </section>
@@ -44,7 +57,6 @@ function ProductList({ setSelectedProdId }) {
       <div className="cardHeader">
         <div>
           <div className="cardTitle">Product List</div>
-          <div className="muted">Browse available products (demo view)</div>
         </div>
       </div>
 
@@ -53,7 +65,7 @@ function ProductList({ setSelectedProdId }) {
           <thead>
             <tr>
               {productProps.map((prop) => <th key={prop}>{prop}</th>)}
-              <th>offers</th>
+              <th>Offer</th>
             </tr>
           </thead>
           <tbody>
@@ -62,7 +74,7 @@ function ProductList({ setSelectedProdId }) {
                 {productProps.map((prop) => <td key={`${prod.prodId}-${prop}`}>{prod[prop]}</td>)}
                 <td>
                   <button className="btn btnGhost" type="button" onClick={() => setSelectedProdId(prod.prodId)}>
-                    view
+                    View
                   </button>
                 </td>
               </tr>
@@ -114,10 +126,8 @@ function OfferList({ selectedProdId, setSelectedProdId }) {
             Back
           </button>
           <div className="cardTitle">
-            Offers for Product
-            {selectedProdId}
+            Offers
           </div>
-          <div className="muted">Available offers for this product</div>
         </div>
       </div>
 
@@ -126,7 +136,7 @@ function OfferList({ selectedProdId, setSelectedProdId }) {
           <thead>
             <tr>
               {offerProps.map((prop) => <th key={prop}>{prop}</th>)}
-              <th>actions</th>
+              {offers.length > 0 && <th>Action</th>}
             </tr>
           </thead>
           <tbody>
@@ -141,14 +151,76 @@ function OfferList({ selectedProdId, setSelectedProdId }) {
                       placeOfferMutation.mutate({ userId: USER_ID, offerId: offer.offerId });
                     }}
                   >
-                    buy
+                    Buy
                   </button>
                 </td>
               </tr>
             ))}
             {!offers.length && (
             <tr>
-              <td colSpan={offerProps.length} className="muted">No offers found.</td>
+              <td colSpan={offerProps.length} className="muted">No offers available</td>
+            </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function OrderList() {
+  const orderListQuery = useQuery({
+    queryKey: ['orders', 'list', USER_ID],
+    queryFn: async () => {
+      const response = await api.post('/orders/List', { userId: USER_ID });
+      return response.data;
+    },
+  });
+
+  if (orderListQuery.isPending) return <p className="muted">Loading orders…</p>;
+  if (orderListQuery.isError) return <p className="alert alertError">Failed to load orders.</p>;
+
+  const { orders } = orderListQuery.data;
+  const orderProps = orders?.[0] ? Object.keys(orders[0]) : [];
+
+  return (
+    <div className="card">
+      <div className="cardHeader">
+        <div>
+          <div className="cardTitle">My Orders</div>
+        </div>
+      </div>
+
+      <div className="tableWrap">
+        <table className="table">
+          <thead>
+            <tr>
+              {orderProps.map((prop) => <th key={prop}>{prop}</th>)}
+              {orders.length > 0 && <th>Action</th>}
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <tr key={order.orderId}>
+                {orderProps.map((prop) => <td key={`${order.orderId}-${prop}`}>{order[prop]}</td>)}
+                <td>
+                  <button
+                    className="btn btnGhost"
+                    type="button"
+                    disabled={order.status === 'canceled'}
+                    onClick={() => {
+                      // todo: initiate POST req.
+                      console.log('order canceled');
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {!orders.length && (
+            <tr>
+              <td colSpan={orderProps.length || 1} className="muted">No orders found.</td>
             </tr>
             )}
           </tbody>
