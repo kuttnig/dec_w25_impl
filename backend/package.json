@@ -6,9 +6,12 @@
         "dev": "nodemon --legacy-watch src/server.js"
     },
     "dependencies": {
+        "@graphql-tools/schema": "^10.0.0",
         "ajv": "^8.17.1",
         "cors": "^2.8.5",
         "express": "^4.17.1",
+        "graphql": "^16.9.0",
+        "graphql-http": "^1.22.4",
         "mongoose": "^9.1.2"
     },
     "devDependencies": {
