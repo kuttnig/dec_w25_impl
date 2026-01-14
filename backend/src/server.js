@@ -6,6 +6,7 @@ import { createHandler } from 'graphql-http/lib/use/express';
 
 import initDatabase from './db/init.js';
 import productsRouter from './routes/products.js';
+import offerRouter from './routes/offers.js';
 import adminRouter from './routes/admin.js';
 
 import { schema } from './graphql/schema.js';
@@ -23,6 +24,7 @@ app.use(express.json());
 
 // Rest routes
 app.use('/products', productsRouter);
+app.use('/offers', offerRouter);
 app.use('/admin', adminRouter);
 
 // GraphQL
