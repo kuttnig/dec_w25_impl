@@ -4,7 +4,17 @@ const { Schema, SchemaTypes, model } = mongoose;
 
 const userSchema = new Schema({
   name: String,
+
   isBusiness: Boolean,
+
+  orders: [{
+    type: SchemaTypes.ObjectId,
+    ref: 'Order',
+  }],
+  limits: [{
+    type: SchemaTypes.ObjectId,
+    ref: 'Limit',
+  }],
 
   companyName: {
     type: String,
@@ -15,15 +25,6 @@ const userSchema = new Schema({
     type: String,
     default: '',
   },
-
-  orders: [{
-    type: SchemaTypes.ObjectId,
-    ref: 'Order',
-  }],
-  limits: [{
-    type: SchemaTypes.ObjectId,
-    ref: 'Limit',
-  }],
 });
 
 const User = model('User', userSchema);

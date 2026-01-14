@@ -1,0 +1,26 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://marktverbund25.at/place_order_res.schema.json",
+    "title": "place order responsea ",
+    "description": "format of response body order placement",
+    "type": "object",
+    "properties": {
+        "orderId": {
+            "type": "string"
+        },
+        "status": {
+            "type": "string",
+            "enum": [
+                "pending"
+            ]
+        },
+        "createdAt": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "orderId",
+        "status",
+        "createdAt"
+    ]
+}
