@@ -2,11 +2,15 @@
     {
         "_id": "507f1f77bcf86cd799439020",
         "name": "Raphael",
-        "isBusiness": false
+        "isBusiness": true,
+        "companyName": "Raphael AG",
+        "b2bApiKey": "b2b_raphael_456"
     },
     {
         "_id": "507f1f77bcf86cd799439021",
         "name": "Kevin",
-        "isBusiness": true
+        "isBusiness": true,
+        "companyName": "Kevin GmbH",
+        "b2bApiKey": "b2b_kevin_123"
     }
 ]
