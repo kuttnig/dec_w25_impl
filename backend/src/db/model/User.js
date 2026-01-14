@@ -5,6 +5,17 @@ const { Schema, SchemaTypes, model } = mongoose;
 const userSchema = new Schema({
   name: String,
   isBusiness: Boolean,
+
+  companyName: {
+    type: String,
+    default: '',
+  },
+
+  b2bApiKey: {
+    type: String,
+    default: '',
+  },
+
   orders: [{
     type: SchemaTypes.ObjectId,
     ref: 'Order',
