@@ -1,0 +1,15 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://marktverbund25.at/cancel_order_req.schema.json",
+    "title": "cancel order request",
+    "description": "format of request body to cancel an order",
+    "type": "object",
+    "properties": {
+        "orderId": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "orderId"
+    ]
+}

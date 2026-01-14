@@ -1,0 +1,38 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://marktverbund25.at/list_orders_res.schema.json",
+    "title": "list orders response",
+    "description": "format of response body to list orders of a user",
+    "type": "object",
+    "properties": {
+        "orders": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "orderid": {
+                        "type": "string"
+                    },
+                    "offerId": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "canceled"
+                        ]
+                    }
+                },
+                "required": [
+                    "orderid",
+                    "offerId",
+                    "status"
+                ]
+            }
+        }
+    },
+    "required": [
+        "orders"
+    ]
+}
