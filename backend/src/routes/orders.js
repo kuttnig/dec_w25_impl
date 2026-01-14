@@ -116,8 +116,6 @@ router.post('/Cancel', (req, res, next) => {
 
   const cancelAck = {orderId: String(canceledOrder._id),  status: canceledOrder.status};
 
-  console.log(cancelAck);
-
   if (!validateCancelRes(cancelAck)) {
     console.log(validateCancelRes.errors)
     res.status(500).json({ msg: 'res schema mismatch' });

@@ -169,11 +169,23 @@ function OfferList({ selectedProdId, setSelectedProdId }) {
 }
 
 function OrderList() {
+  const queryClient = useQueryClient();
+
   const orderListQuery = useQuery({
     queryKey: ['orders', 'list', USER_ID],
     queryFn: async () => {
       const response = await api.post('/orders/List', { userId: USER_ID });
       return response.data;
+    },
+  });
+
+  const cancelOrderMutation = useMutation({
+    mutationFn: (reqBody) => {
+      const response = api.post('/orders/Cancel', reqBody);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.resetQueries({ queryKey: ['orders', 'list', USER_ID] });
     },
   });
 
@@ -209,8 +221,7 @@ function OrderList() {
                     type="button"
                     disabled={order.status === 'canceled'}
                     onClick={() => {
-                      // todo: initiate POST req.
-                      console.log('order canceled');
+                      cancelOrderMutation.mutate({ orderId: order.orderId });
                     }}
                   >
                     Cancel
