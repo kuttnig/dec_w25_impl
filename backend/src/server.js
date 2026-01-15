@@ -9,6 +9,7 @@ import productsRouter from './routes/products.js';
 import offerRouter from './routes/offers.js';
 import orderRouter from './routes/orders.js';
 import adminRouter from './routes/admin.js';
+import limitRouter from './routes/limit.js';
 
 import { schema } from './graphql/schema.js';
 import createContext from './graphql/context.js';
@@ -28,6 +29,7 @@ app.use('/products', productsRouter);
 app.use('/offers', offerRouter);
 app.use('/orders', orderRouter);
 app.use('/admin', adminRouter);
+app.use('/limit', limitRouter);
 
 // GraphQL
 app.all('/graphql', createHandler({
