@@ -108,3 +108,14 @@ Monitor logs of specific container:
 ```
 docker compose logs -f [SERVICE]
 ```
+---
+
+### Erklärung zur Verwendung von KI-Tools
+
+Die KI-Tools ChatGPT (OpenAI) und DeepL wurden im Rahmen dieser Arbeit unterstützend eingesetzt, um die sprachliche und grammatikalische Qualität zu verbessern, Formulierungen zu überarbeiten und zu optimieren sowie Übersetzungen zwischen Deutsch und Englisch anzufertigen bzw. zu überprüfen.
+
+Darüber hinaus wurde ChatGPT punktuell zur Klärung einzelner Konzepte und zur Unterstützung des Verständnisses verwendet, insbesondere in Form eines Sparringspartners für Ideenentwicklung, kritische Reflexion und das strukturierte Abwägen von Alternativen.
+
+Im technischen Kontext wurde ChatGPT außerdem teilweise zur Identifikation möglicher Fehlerquellen (z. B. Hinweise auf typische Ursachen, Debugging-Ansätze und Interpretation von Fehlermeldungen) konsultiert sowie zur Generierung von Testdaten bzw. Beispielinput genutzt, um Funktionen und Abläufe zu prüfen. Die erstellten Testdaten wurden dabei an die Anforderungen der Aufgabenstellung angepasst und, soweit erforderlich, manuell überprüft.
+
+KI-Ausgaben wurden nicht ungeprüft übernommen, sondern kritisch bewertet und bei Bedarf angepasst.
