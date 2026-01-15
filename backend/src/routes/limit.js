@@ -13,6 +13,8 @@ import statusReqSchema from '../schemas/limits/get_limit_status_req.schema.json'
 import statusResSchema from '../schemas/limits/get_limit_status_res.schema.json' with { type: 'json' };
 import listReqSchema from '../schemas/limits/list_limits_req.schema.json' with { type: 'json' };
 import listReschema from '../schemas/limits/list_limits_res.schema.json' with { type: 'json' };
+import cancelReqSchema from '../schemas/limits/cancel_limit_req.schema.json' with { type: 'json' };
+import cancelResSchema from '../schemas/limits/cancel_limit_res_ack.schema.json' with { type: 'json' };
 
 const router = express.Router();
 const ajv = new Ajv();
@@ -23,6 +25,8 @@ const validateStatusReq = ajv.compile(statusReqSchema);
 const validateStatusRes = ajv.compile(statusResSchema);
 const validateListReq = ajv.compile(listReqSchema);
 const validateListRes = ajv.compile(listReschema);
+const validateCancelReq = ajv.compile(cancelReqSchema);
+const validateCancelRes = ajv.compile(cancelResSchema);
 
 router.post('/Place', (req, res, next) => {
   if (!validatePlaceReq(req.body)) {
@@ -101,6 +105,30 @@ router.post('/List', (req, res, next) => {
   }
 
   res.json(limits);
+});
+
+router.post('/Cancel', (req, res, next) => {
+  if (!validateCancelReq(req.body)) {
+    res.status(400).json({ msg: 'req schema mismatch' });
+    return;
+  }
+  next();
+}, async (req, res) => {
+  const {limId} = req.body;
+
+  const canceledLimit = await Limit.findByIdAndUpdate(
+    new mongoose.Types.ObjectId(limId),
+    { status: 'canceled' },
+  );
+
+  const cancelAck = {limId: String(canceledLimit._id), status: canceledLimit.status};
+
+  if (!validateCancelRes(cancelAck)) {
+    console.log(validateCancelRes.errors)
+    res.status(500).json({ msg: 'res schema mismatch' });
+    return;
+  }
+  res.json(cancelAck);
 });
 
 router.post('/Status', (req, res, next) => {
