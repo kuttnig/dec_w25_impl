@@ -32,7 +32,10 @@ Unser System ist als containerisierte 3‑Schichten Architektur umgesetzt (UI �
 * **B2B‑3 & B2B‑4 (GraphQL Kimeswenger):** Offer Sync Batch und Sales Report Export als asynchrone Prozesse mit Status-/Result‑Abfragen.
 
 B2B-3 & B2B-4 wurden im Zuge dieser Abgabe neu hinzugefügt.
-Details siehe: (link)
+
+Beschreibung der Use Cases wie in Aufgabe 2 gefordert, siehe: [B2B-3 B2B-4](doc/kimeswenger/usaecase_b2b-3_b2b-4/kimeswenger_usecases.md)
+
+Die Dokumentation der Tests via Postman sind hier abgelegt: [Postman Tests B2B-3 B2B-4](doc/kimeswenger/usaecase_b2b-3_b2b-4/kimesenger_b2b_test_docu.md)
 
 **Archimate visualisierung:**
 
