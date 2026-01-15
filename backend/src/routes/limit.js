@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 
 import Limit from '../db/model/Limit.js';
 import User from '../db/model/User.js';
+import Product from '../db/model/Product.js';
+import Order from '../db/model/Order.js';
 
 import placeReqSchema from '../schemas/limits/place_limit_req.schema.json' with { type: 'json' };
 import placeResSchema from '../schemas/limits/place_limit_res_ack.schema.json' with { type: 'json' };
@@ -70,5 +72,44 @@ router.post('/Status', (req, res, next) => {
 
   res.json(statusRes);
 });
+
+// multiple collection updates should occur as single transaction (not implemented in prototype)
+async function processLimitOrders() {
+  await Limit.updateMany(
+    { status: 'pending', validTill: { $lt: new Date() } },
+    { $set: { status: 'expired' } }
+  );
+
+  const pendingLimits = await Limit.find({ status: 'pending' });
+  for (const limit of pendingLimits) {
+    const product = await Product.findById(limit.product).populate('offers');
+    if (product && product.offers.length > 0) {
+      const matchingOffers = product.offers
+        .filter(offer => offer.price <= limit.price)
+        .sort((a, b) => a.price - b.price);
+
+      if (matchingOffers.length > 0) {
+        const matchingOffer = matchingOffers[0];
+        
+        const order = new Order({
+          status: 'pending',
+          offer: matchingOffer._id,
+        });
+        await order.save();
+
+        await User.findOneAndUpdate(
+          { limits: limit._id },
+          { $push: { orders: order._id } }
+        );
+
+        await Limit.findByIdAndUpdate(limit._id, { 
+          status: 'fulfilled',
+          order: order._id 
+        });
+      }
+    }
+  }
+}
+setInterval(processLimitOrders, 5000);
 
 export default router;
