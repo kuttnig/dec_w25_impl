@@ -36,7 +36,17 @@ Details siehe: (link)
 
 **Archimate visualisierung:**
 
-![Systemarchitektur](doc/img/archimate/)
+![Systemarchitektur](doc/img/archimate/Kunde.png)
+
+![Systemarchitektur](doc/img/archimate/B2B-Partner.png)
+
+![Systemarchitektur](doc/img/archimate/Administrator.png)
+
+![Systemarchitektur](doc/img/archimate/HTTPS_routing.png)
+
+![Systemarchitektur](doc/img/archimate/MongoDB.png)
+
+![Systemarchitektur](doc/img/archimate/NGINX.png)
 
 ---
 
