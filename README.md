@@ -37,6 +37,24 @@ Beschreibung der Use Cases wie in Aufgabe 2 gefordert, siehe: [B2B-3 B2B-4](doc/
 
 Die Dokumentation der Tests via Postman sind hier abgelegt: [Postman Tests B2B-3 B2B-4](doc/kimeswenger/usaecase_b2b-3_b2b-4/kimesenger_b2b_test_docu.md)
 
+Postman Export:
+
+[Collection + Enviorment](postman/kimeswenger_b2b-3_b2b-4/)
+
+Enviroment:
+- baseUrl: https://localhost:8443/graphql
+- b2bKey: b2b_raphael_456
+- productId: 507f1f77bcf86cd799439017
+- batchId: 696765e1aed95056c3e1b5ec
+- reportId: 69678489aed95056c3e1b665
+
+Direkt via Postman-Share:
+
+- [Enviroment](https://.postman.co/workspace/Vendorupload~fe080c2e-1a05-4d0f-abcb-d51b827cf861/environment/26165338-b72eb9db-d1dc-4f19-bccf-5e6170a52644?action=share&creator=26165338&active-environment=26165338-b72eb9db-d1dc-4f19-bccf-5e6170a52644)
+- [Collection](https://.postman.co/workspace/Vendorupload~fe080c2e-1a05-4d0f-abcb-d51b827cf861/collection/26165338-d322f946-355c-4353-9b5a-d2ad977ad29d?action=share&creator=26165338&active-environment=26165338-b72eb9db-d1dc-4f19-bccf-5e6170a52644)
+
+
+
 **Archimate visualisierung:**
 
 ![Systemarchitektur](doc/img/archimate/Kunde.png)

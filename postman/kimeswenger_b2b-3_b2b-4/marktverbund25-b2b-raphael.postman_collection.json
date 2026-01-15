@@ -1,0 +1,1223 @@
+{
+	"info": {
+		"_postman_id": "d322f946-355c-4353-9b5a-d2ad977ad29d",
+		"name": "marktverbund25-b2b-raphael",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26165338"
+	},
+	"item": [
+		{
+			"name": "GraphQL ist erreichbar",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-b2b-key",
+						"value": "b2b_raphael_456",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  products(limit: 3) {\r\n    id\r\n    name\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8443/graphql",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "b2bMe (ohne Key)",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  b2bMe {\r\n    userId\r\n    name\r\n    companyName\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": [
+				{
+					"name": "b2bMe (ohne Key)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\r\n  b2bMe {\r\n    userId\r\n    name\r\n    companyName\r\n  }\r\n}\r\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.27.5"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 Jan 2026 12:22:30 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"b2bMe\": null\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "b2bMe (mit Key)",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-b2b-key",
+						"value": "{{b2bKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  b2bMe {\r\n    userId\r\n    name\r\n    companyName\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "b2bMe (mit Key)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-b2b-key",
+								"value": "{{b2bKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\r\n  b2bMe {\r\n    userId\r\n    name\r\n    companyName\r\n  }\r\n}\r\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.27.5"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 Jan 2026 12:24:36 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"b2bMe\": {\n            \"userId\": \"507f1f77bcf86cd799439020\",\n            \"name\": \"Raphael\",\n            \"companyName\": \"Raphael AG\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "B2B - 3: List Products, choose product ids",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-b2b-key",
+						"value": "{{b2bKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  products(limit: 10) {\r\n    id\r\n    name\r\n    offers { id seller price }\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "B2B - 3: List Products, choose product ids",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-b2b-key",
+								"value": "{{b2bKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\r\n  products(limit: 10) {\r\n    id\r\n    name\r\n    offers { id seller price }\r\n  }\r\n}\r\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.27.5"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 Jan 2026 12:30:05 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"products\": [\n            {\n                \"id\": \"507f1f77bcf86cd799439017\",\n                \"name\": \"Garden Tool Set\",\n                \"offers\": [\n                    {\n                        \"id\": \"507f191e810c19729de860ef\",\n                        \"seller\": \"Garden Masters\",\n                        \"price\": 45.99\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860f0\",\n                        \"seller\": \"Home Essentials\",\n                        \"price\": 39.5\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860f1\",\n                        \"seller\": \"Outdoor Living Co\",\n                        \"price\": 52\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860f2\",\n                        \"seller\": \"BuildIt Store\",\n                        \"price\": 42.75\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860f3\",\n                        \"seller\": \"Green Space\",\n                        \"price\": 48.25\n                    }\n                ]\n            },\n            {\n                \"id\": \"507f1f77bcf86cd799439018\",\n                \"name\": \"Mountain Bike\",\n                \"offers\": [\n                    {\n                        \"id\": \"507f191e810c19729de860f4\",\n                        \"seller\": \"SportGear Inc\",\n                        \"price\": 129.99\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860f5\",\n                        \"seller\": \"Athletic World\",\n                        \"price\": 119.5\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860f6\",\n                        \"seller\": \"Outdoor Experts\",\n                        \"price\": 145\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860f7\",\n                        \"seller\": \"Adventure Supplies\",\n                        \"price\": 135.75\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860f8\",\n                        \"seller\": \"Performance Sports\",\n                        \"price\": 140\n                    }\n                ]\n            },\n            {\n                \"id\": \"507f1f77bcf86cd799439019\",\n                \"name\": \"Mystery Novel Collection\",\n                \"offers\": [\n                    {\n                        \"id\": \"507f191e810c19729de860f9\",\n                        \"seller\": \"BookWorm Central\",\n                        \"price\": 24.99\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860fa\",\n                        \"seller\": \"Page Turner Books\",\n                        \"price\": 22.5\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860fb\",\n                        \"seller\": \"Media Palace\",\n                        \"price\": 28\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860fc\",\n                        \"seller\": \"Literary Hub\",\n                        \"price\": 26.75\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860fd\",\n                        \"seller\": \"Story World\",\n                        \"price\": 25.5\n                    }\n                ]\n            },\n            {\n                \"id\": \"507f1f77bcf86cd79943901a\",\n                \"name\": \"Winter Jacket Pro\",\n                \"offers\": [\n                    {\n                        \"id\": \"507f191e810c19729de860fe\",\n                        \"seller\": \"Fashion Forward\",\n                        \"price\": 89.99\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860ff\",\n                        \"seller\": \"Style Boutique\",\n                        \"price\": 79.5\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de86100\",\n                        \"seller\": \"Trend Setters\",\n                        \"price\": 99\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de86101\",\n                        \"seller\": \"Classic Wear\",\n                        \"price\": 85.75\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de86102\",\n                        \"seller\": \"Designer's Pick\",\n                        \"price\": 94\n                    }\n                ]\n            },\n            {\n                \"id\": \"507f1f77bcf86cd799439016\",\n                \"name\": \"Wireless Bluetooth Headphones\",\n                \"offers\": [\n                    {\n                        \"id\": \"507f191e810c19729de860ea\",\n                        \"seller\": \"TechStore Pro\",\n                        \"price\": 299.99\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860eb\",\n                        \"seller\": \"ElectroWorld\",\n                        \"price\": 279.5\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860ec\",\n                        \"seller\": \"GadgetHub\",\n                        \"price\": 319\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860ed\",\n                        \"seller\": \"Digital Solutions\",\n                        \"price\": 289.99\n                    },\n                    {\n                        \"id\": \"507f191e810c19729de860ee\",\n                        \"seller\": \"Tech Valley\",\n                        \"price\": 309.5\n                    },\n                    {\n                        \"id\": \"6967ec6a84ca70fea93bb575\",\n                        \"seller\": \"asdfasdf\",\n                        \"price\": 9\n                    }\n                ]\n            }\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "B2B - 3: Submit Offer Sync Batch (partial success)",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-b2b-key",
+						"value": "{{b2bKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation Submit($input: SubmitOfferSyncBatchInput!) {\r\n  submitOfferSyncBatch(input: $input) {\r\n    ok\r\n    error { code message }\r\n    batchId\r\n    status\r\n  }\r\n}",
+						"variables": "{\r\n  \"input\": {\r\n    \"idempotencyKey\": \"demo-batch-002\",\r\n    \"items\": [\r\n      { \"lineNo\": 1, \"productId\": \"{{productId}}\", \"action\": \"UPSERT\", \"seller\": \"Seller 1 GmbH\", \"price\": 9.99 },\r\n      { \"lineNo\": 2, \"productId\": \"{{productId}}\", \"action\": \"UPSERT\", \"seller\": \"Seller 1 GmbH\", \"price\": -1 },\r\n      { \"lineNo\": 3, \"productId\": \"000000000000000000000000\", \"action\": \"UPSERT\", \"seller\": \"Seller 1 GmbH\", \"price\": 5.0 }\r\n    ]\r\n  }\r\n}\r\n"
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "B2B - 3: Submit Offer Sync Batch (partial success)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-b2b-key",
+								"value": "{{b2bKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation Submit($input: SubmitOfferSyncBatchInput!) {\r\n  submitOfferSyncBatch(input: $input) {\r\n    ok\r\n    error { code message }\r\n    batchId\r\n    status\r\n  }\r\n}",
+								"variables": "{\r\n  \"input\": {\r\n    \"idempotencyKey\": \"demo-batch-001\",\r\n    \"items\": [\r\n      { \"lineNo\": 1, \"productId\": \"{{productId}}\", \"action\": \"UPSERT\", \"seller\": \"Seller 1 GmbH\", \"price\": 9.99 },\r\n      { \"lineNo\": 2, \"productId\": \"{{productId}}\", \"action\": \"UPSERT\", \"seller\": \"Seller 1 GmbH\", \"price\": -1 },\r\n      { \"lineNo\": 3, \"productId\": \"000000000000000000000000\", \"action\": \"UPSERT\", \"seller\": \"Seller 1 GmbH\", \"price\": 5.0 }\r\n    ]\r\n  }\r\n}\r\n"
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.27.5"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 14 Jan 2026 10:15:26 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"submitOfferSyncBatch\": {\n            \"ok\": true,\n            \"error\": null,\n            \"batchId\": \"696765e1aed95056c3e1b5ec\",\n            \"status\": \"DONE\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "B2B - 3: Poll Batch Status",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-b2b-key",
+						"value": "{{b2bKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  offerSyncBatchStatus(batchId: \"{{batchId}}\") {\r\n    ok\r\n    error { code message }\r\n    batchId\r\n    status\r\n    startedAt\r\n    finishedAt\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "B2B - 3: Poll Batch Status",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-b2b-key",
+								"value": "{{b2bKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\r\n  offerSyncBatchStatus(batchId: \"{{batchId}}\") {\r\n    ok\r\n    error { code message }\r\n    batchId\r\n    status\r\n    startedAt\r\n    finishedAt\r\n  }\r\n}\r\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.27.5"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 Jan 2026 12:38:15 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"offerSyncBatchStatus\": {\n            \"ok\": true,\n            \"error\": null,\n            \"batchId\": \"696765e1aed95056c3e1b5ec\",\n            \"status\": \"DONE\",\n            \"startedAt\": \"2026-01-14T09:46:09.919Z\",\n            \"finishedAt\": \"2026-01-14T09:46:09.961Z\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "B2B - 3: Get Batch Result",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-b2b-key",
+						"value": "{{b2bKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  offerSyncBatchResult(batchId: \"{{batchId}}\") {\r\n    ok\r\n    error { code message }\r\n    batch {\r\n      id\r\n      status\r\n      createdAt\r\n      summary { processedCount successCount errorCount }\r\n      items {\r\n        lineNo\r\n        productId\r\n        action\r\n        offerId\r\n        seller\r\n        price\r\n        result\r\n        errorCode\r\n        message\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "B2B - 3: Get Batch Result",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-b2b-key",
+								"value": "{{b2bKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\r\n  offerSyncBatchResult(batchId: \"{{batchId}}\") {\r\n    ok\r\n    error { code message }\r\n    batch {\r\n      id\r\n      status\r\n      createdAt\r\n      summary { processedCount successCount errorCount }\r\n      items {\r\n        lineNo\r\n        productId\r\n        action\r\n        offerId\r\n        seller\r\n        price\r\n        result\r\n        errorCode\r\n        message\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.27.5"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 Jan 2026 08:57:17 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"offerSyncBatchResult\": {\n            \"ok\": true,\n            \"error\": null,\n            \"batch\": {\n                \"id\": \"696765e1aed95056c3e1b5ec\",\n                \"status\": \"DONE\",\n                \"createdAt\": \"2026-01-14T09:46:09.731Z\",\n                \"summary\": {\n                    \"processedCount\": 3,\n                    \"successCount\": 1,\n                    \"errorCount\": 2\n                },\n                \"items\": [\n                    {\n                        \"lineNo\": 1,\n                        \"productId\": \"507f1f77bcf86cd799439018\",\n                        \"action\": \"UPSERT\",\n                        \"offerId\": \"696765e1aed95056c3e1b5f1\",\n                        \"seller\": \"Seller 1 GmbH\",\n                        \"price\": 9.99,\n                        \"result\": \"OK\",\n                        \"errorCode\": null,\n                        \"message\": \"offer created\"\n                    },\n                    {\n                        \"lineNo\": 2,\n                        \"productId\": \"507f1f77bcf86cd799439017\",\n                        \"action\": \"UPSERT\",\n                        \"offerId\": null,\n                        \"seller\": \"Seller 1 GmbH\",\n                        \"price\": -1,\n                        \"result\": \"ERROR\",\n                        \"errorCode\": \"INVALID_INPUT\",\n                        \"message\": \"price must be > 0 for UPSERT\"\n                    },\n                    {\n                        \"lineNo\": 3,\n                        \"productId\": \"000000000000000000000000\",\n                        \"action\": \"UPSERT\",\n                        \"offerId\": null,\n                        \"seller\": \"Seller 1 GmbH\",\n                        \"price\": 5,\n                        \"result\": \"ERROR\",\n                        \"errorCode\": \"NOT_FOUND\",\n                        \"message\": \"product not found\"\n                    }\n                ]\n            }\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "B2B - 3: Verify Offers on Product",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-b2b-key",
+						"value": "{{b2bKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  offers(productId: \"507f1f77bcf86cd799439018\") {\r\n    id\r\n    seller\r\n    price\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "B2B - 3: Verify Offers on Product",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-b2b-key",
+								"value": "{{b2bKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\r\n  offers(productId: \"507f1f77bcf86cd799439017\") {\r\n    id\r\n    seller\r\n    price\r\n  }\r\n}\r\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.27.5"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 Jan 2026 12:57:41 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"offers\": [\n            {\n                \"id\": \"507f191e810c19729de860ef\",\n                \"seller\": \"Garden Masters\",\n                \"price\": 45.99\n            },\n            {\n                \"id\": \"507f191e810c19729de860f0\",\n                \"seller\": \"Home Essentials\",\n                \"price\": 39.5\n            },\n            {\n                \"id\": \"507f191e810c19729de860f1\",\n                \"seller\": \"Outdoor Living Co\",\n                \"price\": 52\n            },\n            {\n                \"id\": \"507f191e810c19729de860f2\",\n                \"seller\": \"BuildIt Store\",\n                \"price\": 42.75\n            },\n            {\n                \"id\": \"507f191e810c19729de860f3\",\n                \"seller\": \"Green Space\",\n                \"price\": 48.25\n            },\n            {\n                \"id\": \"6968e41b84ca70fea93bb5c7\",\n                \"seller\": \"Seller 1 GmbH\",\n                \"price\": 9.99\n            }\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "B2B - 4: Request Sales Report",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-b2b-key",
+						"value": "{{b2bKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation Request($input: RequestSalesReportInput!) {\r\n  requestSalesReport(input: $input) {\r\n    ok\r\n    error { code message }\r\n    reportId\r\n    status\r\n  }\r\n}\r\n",
+						"variables": "{\r\n  \"input\": {\r\n    \"from\": \"2025-01-01T00:00:00.000Z\",\r\n    \"to\": \"2025-12-31T23:59:59.000Z\",\r\n    \"format\": \"JSON\",\r\n    \"idempotencyKey\": \"demo-report-001\"\r\n  }\r\n}\r\n"
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "B2B - 4: Request Sales Report",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-b2b-key",
+								"value": "{{b2bKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation Request($input: RequestSalesReportInput!) {\r\n  requestSalesReport(input: $input) {\r\n    ok\r\n    error { code message }\r\n    reportId\r\n    status\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"from\": \"2025-01-01T00:00:00.000Z\",\r\n    \"to\": \"2025-01-31T23:59:59.000Z\",\r\n    \"format\": \"JSON\",\r\n    \"idempotencyKey\": \"demo-report-001\"\r\n  }\r\n}\r\n"
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.27.5"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 Jan 2026 13:10:28 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"requestSalesReport\": {\n            \"ok\": true,\n            \"error\": null,\n            \"reportId\": \"69678489aed95056c3e1b665\",\n            \"status\": \"READY\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "B2B - 4: Poll Report Status",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-b2b-key",
+						"value": "{{b2bKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  salesReportStatus(reportId: \"{{reportId}}\") {\r\n    ok\r\n    error { code message }\r\n    reportId\r\n    status\r\n    message\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "B2B - 4: Poll Report Status",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-b2b-key",
+								"value": "{{b2bKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\r\n  salesReportStatus(reportId: \"{{reportId}}\") {\r\n    ok\r\n    error { code message }\r\n    reportId\r\n    status\r\n    message\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.27.5"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 14 Jan 2026 11:59:55 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"salesReportStatus\": {\n            \"ok\": true,\n            \"error\": null,\n            \"reportId\": \"69678489aed95056c3e1b665\",\n            \"status\": \"READY\",\n            \"message\": null\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "B2B - 4: Fetch Report Page 1",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-b2b-key",
+						"value": "{{b2bKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  salesReport(reportId: \"{{reportId}}\", page: 1, pageSize: 2) {\r\n    ok\r\n    error { code message }\r\n    page {\r\n      report {\r\n        id\r\n        status\r\n        from\r\n        to\r\n        createdAt\r\n        finishedAt\r\n        totals { orderCount revenue }\r\n        receivedAt\r\n      }\r\n      pageInfo { page pageSize totalItems totalPages }\r\n      lines {\r\n        lineNo\r\n        orderId\r\n        createdAt\r\n        offerId\r\n        productId\r\n        productName\r\n        seller\r\n        price\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "B2B - 4: Fetch Report Page 1",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-b2b-key",
+								"value": "{{b2bKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\r\n  salesReport(reportId: \"{{reportId}}\", page: 1, pageSize: 2) {\r\n    ok\r\n    error { code message }\r\n    page {\r\n      report {\r\n        id\r\n        status\r\n        from\r\n        to\r\n        createdAt\r\n        finishedAt\r\n        totals { orderCount revenue }\r\n        receivedAt\r\n      }\r\n      pageInfo { page pageSize totalItems totalPages }\r\n      lines {\r\n        lineNo\r\n        orderId\r\n        createdAt\r\n        offerId\r\n        productId\r\n        productName\r\n        seller\r\n        price\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.27.5"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 Jan 2026 13:15:07 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"salesReport\": {\n            \"ok\": true,\n            \"error\": null,\n            \"page\": {\n                \"report\": {\n                    \"id\": \"69678489aed95056c3e1b665\",\n                    \"status\": \"READY\",\n                    \"from\": \"2025-01-01T00:00:00.000Z\",\n                    \"to\": \"2025-01-31T23:59:59.000Z\",\n                    \"createdAt\": \"2026-01-14T11:56:57.086Z\",\n                    \"finishedAt\": \"2026-01-14T11:56:57.314Z\",\n                    \"totals\": {\n                        \"orderCount\": 0,\n                        \"revenue\": 0\n                    },\n                    \"receivedAt\": \"2026-01-14T12:03:34.930Z\"\n                },\n                \"pageInfo\": {\n                    \"page\": 1,\n                    \"pageSize\": 2,\n                    \"totalItems\": 0,\n                    \"totalPages\": 1\n                },\n                \"lines\": []\n            }\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "B2B - 4: Confirm Received",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-b2b-key",
+						"value": "{{b2bKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation {\r\n  confirmSalesReportReceived(reportId: \"{{reportId}}\") {\r\n    ok\r\n    error { code message }\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "B2B - 4: Confirm Received",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-b2b-key",
+								"value": "{{b2bKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation {\r\n  confirmSalesReportReceived(reportId: \"{{reportId}}\") {\r\n    ok\r\n    error { code message }\r\n  }\r\n}\r\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.27.5"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 Jan 2026 13:17:27 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"confirmSalesReportReceived\": {\n            \"ok\": true,\n            \"error\": null\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "B2B - 4: Invalid date range",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-b2b-key",
+						"value": "{{b2bKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation Request($input: RequestSalesReportInput!) {\r\n  requestSalesReport(input: $input) {\r\n    ok\r\n    error { code message }\r\n    reportId\r\n    status\r\n  }\r\n}\r\n",
+						"variables": "{\r\n  \"input\": {\r\n    \"from\": \"2025-01-01T00:00:00.000Z\",\r\n    \"to\": \"invalid\",\r\n    \"format\": \"JSON\",\r\n    \"idempotencyKey\": \"demo-report-001\"\r\n  }\r\n}\r\n"
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "B2B - 4: Invalid date range",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-b2b-key",
+								"value": "{{b2bKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation Request($input: RequestSalesReportInput!) {\r\n  requestSalesReport(input: $input) {\r\n    ok\r\n    error { code message }\r\n    reportId\r\n    status\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"from\": \"2025-01-01T00:00:00.000Z\",\r\n    \"to\": \"invalid\",\r\n    \"format\": \"JSON\",\r\n    \"idempotencyKey\": \"demo-report-001\"\r\n  }\r\n}\r\n"
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.27.5"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 Jan 2026 13:20:19 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"requestSalesReport\": {\n            \"ok\": false,\n            \"error\": {\n                \"code\": \"INVALID_INPUT\",\n                \"message\": \"from/to must be valid ISO dates\"\n            },\n            \"reportId\": null,\n            \"status\": null\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "B2B - 4: Date Range too large",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-b2b-key",
+						"value": "{{b2bKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation Request($input: RequestSalesReportInput!) {\r\n  requestSalesReport(input: $input) {\r\n    ok\r\n    error { code message }\r\n    reportId\r\n    status\r\n  }\r\n}\r\n",
+						"variables": "{\r\n  \"input\": {\r\n    \"from\": \"2025-01-01T00:00:00.000Z\",\r\n    \"to\": \"2025-12-31T23:59:59.000Z\",\r\n    \"format\": \"JSON\",\r\n    \"idempotencyKey\": \"demo-report-001\"\r\n  }\r\n}\r\n"
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "B2B - 4: Date Range too large",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-b2b-key",
+								"value": "{{b2bKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation Request($input: RequestSalesReportInput!) {\r\n  requestSalesReport(input: $input) {\r\n    ok\r\n    error { code message }\r\n    reportId\r\n    status\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"from\": \"2025-01-01T00:00:00.000Z\",\r\n    \"to\": \"2025-12-31T23:59:59.000Z\",\r\n    \"format\": \"JSON\",\r\n    \"idempotencyKey\": \"demo-report-001\"\r\n  }\r\n}\r\n"
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.27.5"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 14 Jan 2026 17:10:14 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"requestSalesReport\": {\n            \"ok\": false,\n            \"error\": {\n                \"code\": \"RANGE_TOO_LARGE\",\n                \"message\": \"max date range is 90 days\"\n            },\n            \"reportId\": null,\n            \"status\": null\n        }\n    }\n}"
+				}
+			]
+		}
+	]
+}
