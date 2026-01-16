@@ -11,6 +11,10 @@ import placeReqSchema from '../schemas/limits/place_limit_req.schema.json' with 
 import placeResSchema from '../schemas/limits/place_limit_res_ack.schema.json' with { type: 'json' };
 import statusReqSchema from '../schemas/limits/get_limit_status_req.schema.json' with { type: 'json' };
 import statusResSchema from '../schemas/limits/get_limit_status_res.schema.json' with { type: 'json' };
+import listReqSchema from '../schemas/limits/list_limits_req.schema.json' with { type: 'json' };
+import listReschema from '../schemas/limits/list_limits_res.schema.json' with { type: 'json' };
+import cancelReqSchema from '../schemas/limits/cancel_limit_req.schema.json' with { type: 'json' };
+import cancelResSchema from '../schemas/limits/cancel_limit_res_ack.schema.json' with { type: 'json' };
 
 const router = express.Router();
 const ajv = new Ajv();
@@ -19,6 +23,10 @@ const validatePlaceReq = ajv.compile(placeReqSchema);
 const validatePlaceRes = ajv.compile(placeResSchema);
 const validateStatusReq = ajv.compile(statusReqSchema);
 const validateStatusRes = ajv.compile(statusResSchema);
+const validateListReq = ajv.compile(listReqSchema);
+const validateListRes = ajv.compile(listReschema);
+const validateCancelReq = ajv.compile(cancelReqSchema);
+const validateCancelRes = ajv.compile(cancelResSchema);
 
 router.post('/Place', (req, res, next) => {
   if (!validatePlaceReq(req.body)) {
@@ -52,6 +60,77 @@ router.post('/Place', (req, res, next) => {
   res.json(limitAck);
 });
 
+router.post('/List', (req, res, next) => {
+  if (!validateListReq(req.body)) {
+    res.status(400).json({ msg: 'req schema mismatch' });
+    return;
+  }
+  next();
+}, async (req, res) => {
+  const {userId} = req.body;
+
+    let limits = await User.aggregate([
+    { $match: { _id: new mongoose.Types.ObjectId(userId) } },
+    {
+      $lookup: {
+        from: 'limits',
+        localField: 'limits',
+        foreignField: '_id',
+        as: 'limitDetails'
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        limits: {
+          $map: {
+            input: '$limitDetails',
+            as: 'limit',
+            in: {
+              limId: { $toString: '$$limit._id' },
+              prodId: { $toString: '$$limit.product' },
+              price: { $toString: '$$limit.price' },
+              status: '$$limit.status'
+            }
+          }
+        }
+      }
+    }
+  ]);
+  limits = limits[0]
+  
+  if (!validateListRes(limits)) {
+    res.status(500).json({ msg: 'res schema mismatch' });
+    return;
+  }
+
+  res.json(limits);
+});
+
+router.post('/Cancel', (req, res, next) => {
+  if (!validateCancelReq(req.body)) {
+    res.status(400).json({ msg: 'req schema mismatch' });
+    return;
+  }
+  next();
+}, async (req, res) => {
+  const {limId} = req.body;
+
+  const canceledLimit = await Limit.findByIdAndUpdate(
+    new mongoose.Types.ObjectId(limId),
+    { status: 'canceled' },
+  );
+
+  const cancelAck = {limId: String(canceledLimit._id), status: canceledLimit.status};
+
+  if (!validateCancelRes(cancelAck)) {
+    console.log(validateCancelRes.errors)
+    res.status(500).json({ msg: 'res schema mismatch' });
+    return;
+  }
+  res.json(cancelAck);
+});
+
 router.post('/Status', (req, res, next) => {
   if (!validateStatusReq(req.body)) {
     res.status(400).json({ msg: 'req schema mismatch' });
@@ -73,7 +152,7 @@ router.post('/Status', (req, res, next) => {
   res.json(statusRes);
 });
 
-// multiple collection updates should occur as single transaction (not implemented in prototype)
+// multiple collection updates should occur as single transaction
 async function processLimitOrders() {
   await Limit.updateMany(
     { status: 'pending', validTill: { $lt: new Date() } },
