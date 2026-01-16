@@ -28,8 +28,28 @@ Unser System ist als containerisierte 3‑Schichten Architektur umgesetzt (UI �
 
 **B2B‑Schnittstellen im System**
 
+
 * **B2B‑1 & B2B‑2 (REST Kuttnig):** Limit Order platzieren und stornieren.
 * **B2B‑3 & B2B‑4 (GraphQL Kimeswenger):** Offer Sync Batch und Sales Report Export als asynchrone Prozesse mit Status-/Result‑Abfragen.
+
+---
+
+### B2B-1 & B2B-2
+
+- Siehe [./doc/conceptual_description.pdf](./doc/conceptual_description.pdf) für Beschreibung der Use Cases
+- Siehe [./backend/src/schemas](./backend/src/schemas) für Req./Res. Schemas
+- Beim Testen wurde ein Abstand von 5000ms zwischen Requests verwendet (Postman - Run Configuration - Delay=5000ms)
+
+**B2B-1 Platzieren einer Limit-Order**
+
+- Siehe [postman/kuttnig_b2b-1_b2b-2/b2b_1_place_limit.postman_collection.json](postman/kuttnig_b2b-1_b2b-2/b2b_1_place_limit.postman_collection.json) 
+- Ein Angebot kann in der Admin Schnittstelle während der Ausführung inseriert werden, um die Funktionalität zu testen
+
+**B2B-2 Stornieren einer Limit-Order**
+
+- Siehe [postman/kuttnig_b2b-1_b2b-2/b2b_2_cancel_limit.postman_collection.json](postman/kuttnig_b2b-1_b2b-2/b2b_2_cancel_limit.postman_collection.json) 
+
+---
 
 B2B-3 & B2B-4 wurden im Zuge dieser Abgabe neu hinzugefügt.
 
