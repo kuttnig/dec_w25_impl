@@ -1,0 +1,151 @@
+{
+    "info": {
+        "_postman_id": "639b3ac8-dfae-41e7-a007-f8bfc04f5e04",
+        "name": "Place Limit",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "51543550",
+        "_collection_link": "https://kuttnig-4495778.postman.co/workspace/3992b9ff-83b8-437c-8ecc-cdb8aebc4a71/collection/51543550-639b3ac8-dfae-41e7-a007-f8bfc04f5e04?action=share&source=collection_link&creator=51543550"
+    },
+    "item": [
+        {
+            "name": "/limit/Place",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "const response = pm.response.json();",
+                            "const limId = response.limId;",
+                            "",
+                            "if (limId) {",
+                            "    pm.collectionVariables.set(\"limId\", limId);",
+                            "}"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Accept",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"userId\": \"507f1f77bcf86cd799439020\",\n  \"prodId\": \"507f1f77bcf86cd799439016\",\n  \"price\": 29.99,\n  \"validTill\": \"2026-01-20T15:30:00Z\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "https://localhost:8443/api/limit/Place",
+                    "protocol": "https",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8443",
+                    "path": [
+                        "api",
+                        "limit",
+                        "Place"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "/limit/Status",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "const targetStatuses = [\"fulfilled\", \"expired\", \"canceled\"];",
+                            "const delayMs = 5000;",
+                            "",
+                            "const response = pm.response.json();",
+                            "const currentStatus = response.status;",
+                            "",
+                            "if (targetStatuses.includes(currentStatus)) {",
+                            "    pm.execution.setNextRequest(null); // stop collection run",
+                            "} else {",
+                            "   pm.execution.setNextRequest('/limit/Status');",
+                            "}"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Accept",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"limId\": \"{{limId}}\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "https://localhost:8443/api/limit/Status",
+                    "protocol": "https",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8443",
+                    "path": [
+                        "api",
+                        "limit",
+                        "Status"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "retryCount",
+            "value": ""
+        },
+        {
+            "key": "limId",
+            "value": ""
+        }
+    ]
+}
